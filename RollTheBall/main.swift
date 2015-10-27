@@ -9,9 +9,11 @@
 import Foundation
 
 print("Hello, World!")
+var b:Board!
 
-var x = GoalTile()
-var y = PathTile()
+var x = GoalTile(xPostion: 1,yPostion: 2)
+var y = PathTile(xPostion: 1,yPostion: 2, start: .Right, end: Edge.Right)
+
 var tiles = [Tile]()
 tiles.append(y)
 tiles.append(x)
