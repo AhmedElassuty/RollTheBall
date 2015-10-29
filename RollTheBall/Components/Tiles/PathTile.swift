@@ -8,7 +8,7 @@
 
 import Foundation
 
-class PathTile : Tile {
+class PathTile: Tile {
     var start: Edge!
     var end  : Edge!
     

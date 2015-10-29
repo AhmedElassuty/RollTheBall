@@ -7,12 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0108B7001BE1A2AC00E435B1 /* BasicTiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0108B6FC1BE1A2AC00E435B1 /* BasicTiles.swift */; settings = {ASSET_TAGS = (); }; };
+		0108B7011BE1A2AC00E435B1 /* BlockTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0108B6FD1BE1A2AC00E435B1 /* BlockTile.swift */; settings = {ASSET_TAGS = (); }; };
+		0108B7021BE1A2AC00E435B1 /* PathTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0108B6FE1BE1A2AC00E435B1 /* PathTile.swift */; settings = {ASSET_TAGS = (); }; };
+		0108B7031BE1A2AC00E435B1 /* Tile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0108B6FF1BE1A2AC00E435B1 /* Tile.swift */; settings = {ASSET_TAGS = (); }; };
 		0171E7CC1BDEF7760044B1C1 /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0171E7C81BDEF6AA0044B1C1 /* Board.swift */; };
-		0171E7CE1BDEF7C50044B1C1 /* Tile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0171E7CD1BDEF7C50044B1C1 /* Tile.swift */; settings = {ASSET_TAGS = (); }; };
 		0171E7D01BDEF93A0044B1C1 /* Tree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0171E7CF1BDEF93A0044B1C1 /* Tree.swift */; settings = {ASSET_TAGS = (); }; };
 		0171E7D21BDEFEA60044B1C1 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0171E7D11BDEFEA60044B1C1 /* Node.swift */; settings = {ASSET_TAGS = (); }; };
-		0171E7D41BDEFF000044B1C1 /* PathTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0171E7D31BDEFF000044B1C1 /* PathTile.swift */; settings = {ASSET_TAGS = (); }; };
-		0171E7D61BDEFF0D0044B1C1 /* BlockTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0171E7D51BDEFF0D0044B1C1 /* BlockTile.swift */; settings = {ASSET_TAGS = (); }; };
 		C97644061BDEE0BF00A3BF54 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97644051BDEE0BF00A3BF54 /* main.swift */; };
 /* End PBXBuildFile section */
 
@@ -29,12 +30,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0108B6FC1BE1A2AC00E435B1 /* BasicTiles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicTiles.swift; sourceTree = "<group>"; };
+		0108B6FD1BE1A2AC00E435B1 /* BlockTile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockTile.swift; sourceTree = "<group>"; };
+		0108B6FE1BE1A2AC00E435B1 /* PathTile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathTile.swift; sourceTree = "<group>"; };
+		0108B6FF1BE1A2AC00E435B1 /* Tile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tile.swift; sourceTree = "<group>"; };
 		0171E7C81BDEF6AA0044B1C1 /* Board.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
-		0171E7CD1BDEF7C50044B1C1 /* Tile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tile.swift; sourceTree = "<group>"; };
 		0171E7CF1BDEF93A0044B1C1 /* Tree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tree.swift; sourceTree = "<group>"; };
 		0171E7D11BDEFEA60044B1C1 /* Node.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
-		0171E7D31BDEFF000044B1C1 /* PathTile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathTile.swift; sourceTree = "<group>"; };
-		0171E7D51BDEFF0D0044B1C1 /* BlockTile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockTile.swift; sourceTree = "<group>"; };
 		C97644021BDEE0BF00A3BF54 /* RollTheBall */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = RollTheBall; sourceTree = BUILT_PRODUCTS_DIR; };
 		C97644051BDEE0BF00A3BF54 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -50,13 +52,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0108B6FB1BE1A2AC00E435B1 /* Tiles */ = {
+			isa = PBXGroup;
+			children = (
+				0108B6FC1BE1A2AC00E435B1 /* BasicTiles.swift */,
+				0108B6FD1BE1A2AC00E435B1 /* BlockTile.swift */,
+				0108B6FE1BE1A2AC00E435B1 /* PathTile.swift */,
+				0108B6FF1BE1A2AC00E435B1 /* Tile.swift */,
+			);
+			path = Tiles;
+			sourceTree = "<group>";
+		};
 		0171E7C71BDEF6AA0044B1C1 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				0108B6FB1BE1A2AC00E435B1 /* Tiles */,
 				0171E7C81BDEF6AA0044B1C1 /* Board.swift */,
-				0171E7CD1BDEF7C50044B1C1 /* Tile.swift */,
-				0171E7D31BDEFF000044B1C1 /* PathTile.swift */,
-				0171E7D51BDEFF0D0044B1C1 /* BlockTile.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -169,13 +180,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0171E7D41BDEFF000044B1C1 /* PathTile.swift in Sources */,
-				0171E7CE1BDEF7C50044B1C1 /* Tile.swift in Sources */,
 				0171E7D21BDEFEA60044B1C1 /* Node.swift in Sources */,
 				0171E7D01BDEF93A0044B1C1 /* Tree.swift in Sources */,
+				0108B7001BE1A2AC00E435B1 /* BasicTiles.swift in Sources */,
+				0108B7031BE1A2AC00E435B1 /* Tile.swift in Sources */,
+				0108B7011BE1A2AC00E435B1 /* BlockTile.swift in Sources */,
 				0171E7CC1BDEF7760044B1C1 /* Board.swift in Sources */,
+				0108B7021BE1A2AC00E435B1 /* PathTile.swift in Sources */,
 				C97644061BDEE0BF00A3BF54 /* main.swift in Sources */,
-				0171E7D61BDEFF0D0044B1C1 /* BlockTile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

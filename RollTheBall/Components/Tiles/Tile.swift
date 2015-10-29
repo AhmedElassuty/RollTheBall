@@ -15,21 +15,13 @@ enum Edge {
 class Tile {
     var xPostion:Int!
     var yPostion:Int!
-    var canMove: Bool = false
+    var canMove = false
     
     init(xPostion: Int, yPostion: Int){
         self.xPostion = xPostion
         self.yPostion = yPostion
     }
-    
+
 }
 
-class GoalTile : Tile {
-    var opening: Edge!
-}
-
-class InitialTile : Tile {
-    var opening: Edge!
-}
-
-class Blank : Tile {}
+typealias BlankTile = Tile
