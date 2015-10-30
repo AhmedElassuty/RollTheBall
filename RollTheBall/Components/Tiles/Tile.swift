@@ -8,28 +8,30 @@
 
 import Foundation
 
+typealias Location = (row: Int!, col: Int!)
+
 typealias BlankTile = Tile
 
 class Tile {
     // Instance properties
-    var xPosition:Int! = 0
-    var yPosition:Int! = 0
+    var row:Int! = 0
+    var col:Int! = 0
     var canMove = false
     var isEmpty = true
 
     // Initializers
     init(){}
 
-    init(xPosition: Int, yPosition: Int, isEmpty: Bool = false, canMove: Bool = false){
-        self.xPosition = xPosition
-        self.yPosition = yPosition
+    init(row: Int, col: Int, isEmpty: Bool = false, canMove: Bool = false){
+        self.row = row
+        self.col = col
         self.canMove = canMove
         self.isEmpty = isEmpty
     }
 
-    init(location: (Int, Int), isEmpty: Bool = false, canMove: Bool = false){
-        xPosition = location.0
-        yPosition = location.1
+    init(location: Location, isEmpty: Bool = false, canMove: Bool = false){
+        row = location.row
+        col = location.col
         self.canMove = canMove
         self.isEmpty = isEmpty
     }

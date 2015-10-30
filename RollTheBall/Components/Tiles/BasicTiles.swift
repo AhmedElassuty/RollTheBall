@@ -13,11 +13,11 @@ typealias InitialTile = GoalTile
 class GoalTile: Tile {
     var opening: Edge!
     
-    override init(xPosition: Int, yPosition: Int, isEmpty: Bool = false, canMove: Bool = false) {
-        super.init(xPosition: xPosition, yPosition: yPosition)
+    override init(row: Int, col: Int, isEmpty: Bool = false, canMove: Bool = false) {
+        super.init(row: row, col: col)
     }
     
-    init(location: (Int, Int), edge: Edge){
+    init(location: Location, edge: Edge){
         super.init(location: location)
         opening = edge
     }

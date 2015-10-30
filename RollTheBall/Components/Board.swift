@@ -41,10 +41,11 @@ class Board {
     }
     
     func initBasicTiles(){
+        let location =  getValidLocation()
         
     }
     
-    func getValidLocation() -> (row: Int, col: Int) {
+    func getValidLocation() -> Location {
         var validLocations = grid.flatten().filter {
             (tile: Tile) -> Bool in
             if tile.isEmpty {
@@ -54,7 +55,11 @@ class Board {
         }
         let randIndex = Int.random(validLocations.count)
         let validLocation = validLocations[randIndex]
-        return (validLocation.xPosition, validLocation.yPosition)
+        return (validLocation.row, validLocation.col)
     }
+    
+//    func getValidEdges(location: Location) -> [Edge] {
+//        
+//    }
 
 }

@@ -11,8 +11,8 @@ import Foundation
 print("Hello, World!")
 var b: Board = Board()
 
-var x = GoalTile(xPosition: 1, yPosition: 2)
-var y = PathTile(xPosition: 1, yPosition: 2, start: .Right, end: Edge.Left)
+var x = GoalTile(row: 1, col: 2)
+var y = PathTile(row: 1, col: 2, start: .Right, end: Edge.Left)
 
 var tiles = [Tile]()
 tiles.append(y!)
@@ -99,3 +99,5 @@ ii.append(1)
 print(ii)
 
 print(Edge.random(.Right, .Left))
+
+print(Int.random(1))
