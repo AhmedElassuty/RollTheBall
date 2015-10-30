@@ -8,8 +8,7 @@
 
 import Foundation
 
-extension Range
-{
+extension Range {
     var randomInt: Int {
         get {
             let min = startIndex as! Int
@@ -17,4 +16,12 @@ extension Range
             return Int(arc4random_uniform(UInt32(max - min))) + min
         }
     }
+}
+
+extension Int {
+
+    static func randomPair(rows: Int, cols: Int) -> (row: Int, col: Int){
+        return (row: (0...rows).randomInt, col: (0...cols).randomInt)
+    }
+
 }

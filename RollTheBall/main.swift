@@ -11,11 +11,11 @@ import Foundation
 print("Hello, World!")
 var b: Board = Board()
 
-var x = GoalTile(xPostion: 1,yPostion: 2)
-var y = PathTile(xPostion: 1,yPostion: 2, start: .Right, end: Edge.Right)
+var x = GoalTile(xPosition: 1, yPosition: 2)
+var y = PathTile(xPosition: 1, yPosition: 2, start: .Right, end: Edge.Left)
 
 var tiles = [Tile]()
-tiles.append(y)
+tiles.append(y!)
 tiles.append(x)
 
 for tile in tiles{
@@ -26,7 +26,7 @@ for tile in tiles{
     }
 }
 
-func makeIncrementer() -> (Int ->String) {
+func makeIncrementer() -> (Int -> String) {
     func addOne(number: Int) -> String {
         return String(1 + number)
     }
@@ -78,3 +78,24 @@ print((1...6).randomInt)
 //b.grid.append([], atIndex: 0)
 
 print(b.grid.description)
+
+var pair = Int.randomPair(10, cols: 10)
+print(pair)
+
+var edge = Edge.random()
+
+print(edge)
+print(edge == .Left)
+
+var uuu = Edge.randomPair()
+
+print(uuu)
+print(uuu.start)
+
+var ii: [Int] = []
+
+ii.append(1)
+
+print(ii)
+
+print(Edge.random(.Right, .Left))

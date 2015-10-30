@@ -23,6 +23,7 @@ class Board {
     func genGrid(){
         initDimensions()
         initGrid()
+        initBasicTiles()
     }
 
     func initDimensions(){
@@ -33,10 +34,27 @@ class Board {
     func initGrid(){
         for row in 0...(rows - 1) {
             grid.append([])
-            for _ in 1...cols {
-                grid[row].append(Tile())
+            for col in 0...(cols - 1) {
+                grid[row].append(Tile(location: (row, col), isEmpty: true))
             }
         }
     }
     
+    func initBasicTiles(){
+
+    }
+    
+    func getValidLocation() -> (row: Int, col: Int) {
+        var validLocations = grid.flatten().filter {
+            (tile: Tile) -> Bool in
+            if tile.isEmpty {
+                return true
+            }
+            return false
+        }
+        let randIndex = Int(arc4random_uniform(UInt32(validLocations.count)))
+        let validLocation = validLocations[randIndex]
+        return (validLocation.xPosition, validLocation.yPosition)
+    }
+
 }

@@ -8,24 +8,29 @@
 
 import Foundation
 
-enum Edge {
-    case Right, Left, Top, Bottom
-}
-
 typealias BlankTile = Tile
 
 class Tile {
     // Instance properties
-    var xPostion:Int! = 0
-    var yPostion:Int! = 0
+    var xPosition:Int! = 0
+    var yPosition:Int! = 0
     var canMove = false
-    
+    var isEmpty = true
+
     // Initializers
     init(){}
 
-    init(xPostion: Int, yPostion: Int){
-        self.xPostion = xPostion
-        self.yPostion = yPostion
+    init(xPosition: Int, yPosition: Int, isEmpty: Bool = false, canMove: Bool = false){
+        self.xPosition = xPosition
+        self.yPosition = yPosition
+        self.canMove = canMove
+        self.isEmpty = isEmpty
     }
 
+    init(location: (Int, Int), isEmpty: Bool = false, canMove: Bool = false){
+        xPosition = location.0
+        yPosition = location.1
+        self.canMove = canMove
+        self.isEmpty = isEmpty
+    }
 }
