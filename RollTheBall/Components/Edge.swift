@@ -20,7 +20,8 @@ enum Edge: Int {
         for validEdge in validEdges {
             rawValues.append(validEdge.rawValue)
         }
-        let randIndex = Int(arc4random_uniform(UInt32(rawValues.count)))
+        let randIndex = Int.random(rawValues.count)
+        
         return Edge(rawValue: rawValues[randIndex])
     }
     

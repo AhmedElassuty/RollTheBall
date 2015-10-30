@@ -41,7 +41,7 @@ class Board {
     }
     
     func initBasicTiles(){
-
+        
     }
     
     func getValidLocation() -> (row: Int, col: Int) {
@@ -52,7 +52,7 @@ class Board {
             }
             return false
         }
-        let randIndex = Int(arc4random_uniform(UInt32(validLocations.count)))
+        let randIndex = Int.random(validLocations.count)
         let validLocation = validLocations[randIndex]
         return (validLocation.xPosition, validLocation.yPosition)
     }

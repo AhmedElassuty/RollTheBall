@@ -19,6 +19,9 @@ extension Range {
 }
 
 extension Int {
+    static func random(upperLimit: Int) -> Int {
+        return Int(arc4random_uniform(UInt32(upperLimit)))
+    }
 
     static func randomPair(rows: Int, cols: Int) -> (row: Int, col: Int){
         return (row: (0...rows).randomInt, col: (0...cols).randomInt)
