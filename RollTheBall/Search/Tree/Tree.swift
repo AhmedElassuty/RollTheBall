@@ -9,9 +9,12 @@
 import Foundation
 
 class Tree {
+    // Instance properties
     var rootNode : Node!
     
+    // Intializers
     init(){
-        
+        rootNode = Node()
     }
+
 }

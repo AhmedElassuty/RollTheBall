@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01055A571BE3C54B0028F446 /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01055A561BE3C54B0028F446 /* extensions.swift */; settings = {ASSET_TAGS = (); }; };
+		01055A591BE3D3350028F446 /* constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01055A581BE3D3350028F446 /* constants.swift */; settings = {ASSET_TAGS = (); }; };
 		0108B7001BE1A2AC00E435B1 /* BasicTiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0108B6FC1BE1A2AC00E435B1 /* BasicTiles.swift */; settings = {ASSET_TAGS = (); }; };
 		0108B7011BE1A2AC00E435B1 /* BlockTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0108B6FD1BE1A2AC00E435B1 /* BlockTile.swift */; settings = {ASSET_TAGS = (); }; };
 		0108B7021BE1A2AC00E435B1 /* PathTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0108B6FE1BE1A2AC00E435B1 /* PathTile.swift */; settings = {ASSET_TAGS = (); }; };
@@ -30,6 +32,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		01055A561BE3C54B0028F446 /* extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
+		01055A581BE3D3350028F446 /* constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = constants.swift; sourceTree = "<group>"; };
 		0108B6FC1BE1A2AC00E435B1 /* BasicTiles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicTiles.swift; sourceTree = "<group>"; };
 		0108B6FD1BE1A2AC00E435B1 /* BlockTile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockTile.swift; sourceTree = "<group>"; };
 		0108B6FE1BE1A2AC00E435B1 /* PathTile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathTile.swift; sourceTree = "<group>"; };
@@ -52,6 +56,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		01055A551BE3C5330028F446 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				01055A561BE3C54B0028F446 /* extensions.swift */,
+				01055A581BE3D3350028F446 /* constants.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		0108B6FB1BE1A2AC00E435B1 /* Tiles */ = {
 			isa = PBXGroup;
 			children = (
@@ -116,6 +129,7 @@
 		C97644041BDEE0BF00A3BF54 /* RollTheBall */ = {
 			isa = PBXGroup;
 			children = (
+				01055A551BE3C5330028F446 /* Utils */,
 				0171E7C91BDEF6B50044B1C1 /* Search */,
 				0171E7C71BDEF6AA0044B1C1 /* Components */,
 				C97644051BDEE0BF00A3BF54 /* main.swift */,
@@ -183,8 +197,10 @@
 				0171E7D21BDEFEA60044B1C1 /* Node.swift in Sources */,
 				0171E7D01BDEF93A0044B1C1 /* Tree.swift in Sources */,
 				0108B7001BE1A2AC00E435B1 /* BasicTiles.swift in Sources */,
+				01055A591BE3D3350028F446 /* constants.swift in Sources */,
 				0108B7031BE1A2AC00E435B1 /* Tile.swift in Sources */,
 				0108B7011BE1A2AC00E435B1 /* BlockTile.swift in Sources */,
+				01055A571BE3C54B0028F446 /* extensions.swift in Sources */,
 				0171E7CC1BDEF7760044B1C1 /* Board.swift in Sources */,
 				0108B7021BE1A2AC00E435B1 /* PathTile.swift in Sources */,
 				C97644061BDEE0BF00A3BF54 /* main.swift in Sources */,

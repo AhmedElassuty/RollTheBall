@@ -9,17 +9,34 @@
 import Foundation
 
 class Board {
-    var m:Int!
-    var n:Int!
-    var tiles = [[Tile]]()
+    // Instance properties    
+    var rows:Int!
+    var cols:Int!
+    var grid = [[Tile]]()
     
-    init(m:Int, n:Int){
-        self.m = m
-        self.n = n
-        generateRandomTiles()
+    // Initializers
+    init(){
+        genGrid()
     }
     
-    func generateRandomTiles() -> Void {
-        
+    // Methods
+    func genGrid(){
+        initDimensions()
+        initGrid()
     }
+
+    func initDimensions(){
+        rows = (MIN_ROWS...MAX_ROWS).randomInt
+        cols = (MIN_COLS...MAX_COLS).randomInt
+    }
+
+    func initGrid(){
+        for row in 0...(rows - 1) {
+            grid.append([])
+            for _ in 1...cols {
+                grid[row].append(Tile())
+            }
+        }
+    }
+    
 }

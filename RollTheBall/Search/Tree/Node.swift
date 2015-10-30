@@ -23,17 +23,25 @@ class Node {
     var hValue: Int?
     
     // Initializers
+    init(){
+        successors = []
+    }
+    
     init(hValue: Int){
         self.hValue = hValue
         successors = []
     }
 
+    init(successors: [Successor]){
+        self.successors = successors
+    }
+    
     init(hValue: Int, successors: [Successor]){
         self.hValue = hValue
         self.successors = successors
     }
     
-    // Helper Methods
+    // Methods
     func leaf() -> Bool{
         return successors.isEmpty
     }

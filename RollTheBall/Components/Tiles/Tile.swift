@@ -12,16 +12,20 @@ enum Edge {
     case Right, Left, Top, Bottom
 }
 
+typealias BlankTile = Tile
+
 class Tile {
-    var xPostion:Int!
-    var yPostion:Int!
+    // Instance properties
+    var xPostion:Int! = 0
+    var yPostion:Int! = 0
     var canMove = false
     
+    // Initializers
+    init(){}
+
     init(xPostion: Int, yPostion: Int){
         self.xPostion = xPostion
         self.yPostion = yPostion
     }
 
 }
-
-typealias BlankTile = Tile

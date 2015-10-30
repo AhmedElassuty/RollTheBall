@@ -9,7 +9,7 @@
 import Foundation
 
 print("Hello, World!")
-var b:Board!
+var b: Board = Board()
 
 var x = GoalTile(xPostion: 1,yPostion: 2)
 var y = PathTile(xPostion: 1,yPostion: 2, start: .Right, end: Edge.Right)
@@ -48,7 +48,6 @@ var z: String?
 print(z)
 
 print(array.capacity)
-
 print(array.contains(3))
 print(array.dropFirst(3))
 print(array[5])
@@ -72,3 +71,10 @@ s.pathCost = 2
 
 print(node.successors[0].pathCost)
 print(s.pathCost)
+
+print((1...6).randomInt)
+
+//print(b.grid)
+//b.grid.append([], atIndex: 0)
+
+print(b.grid.description)
