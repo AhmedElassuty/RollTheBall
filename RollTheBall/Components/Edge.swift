@@ -10,10 +10,14 @@ import Foundation
 
 enum Edge: Int {
     case Right, Left, Top, Bottom
+    
+    static func random() -> Edge! {
+        return Edge(rawValue: Int(arc4random_uniform(4)))
+    }
 
-    static func random(validEdges: Edge...) -> Edge! {
+    static func random(validEdges: [Edge]) -> Edge! {
         if validEdges.isEmpty {
-            return Edge(rawValue: Int(arc4random_uniform(4)))
+            return nil
         }
 
         var rawValues: [Int] = []

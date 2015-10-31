@@ -22,8 +22,8 @@ class PathTile: Tile {
         self.start = start
     }
     
-    init(location: Location, edges: (start: Edge, end: Edge)) {
-        super.init(location: location)
+    init(location: Location, edges: (start: Edge, end: Edge), canMove: Bool) {
+        super.init(location: location, canMove: canMove)
         self.start = edges.start
         self.end = edges.end
     }
