@@ -9,27 +9,19 @@
 import Foundation
 
 class GoalTile: Tile {
-    var opening: Edge!
-    
-    override init(row: Int, col: Int, isEmpty: Bool = false, canMove: Bool = false) {
-        super.init(row: row, col: col)
-    }
-    
+    var enterEdge: Edge!
+
     init(location: Location, edge: Edge){
-        super.init(location: location)
-        opening = edge
+        super.init(location: location, fixed: true)
+        enterEdge = edge
     }
 }
 
 class InitialTile: Tile {
-    var opening: Edge!
-    
-    override init(row: Int, col: Int, isEmpty: Bool = false, canMove: Bool = false) {
-        super.init(row: row, col: col)
-    }
-    
+    var exitEdge: Edge!
+
     init(location: Location, edge: Edge){
-        super.init(location: location)
-        opening = edge
+        super.init(location: location, fixed: true)
+        exitEdge = edge
     }
 }

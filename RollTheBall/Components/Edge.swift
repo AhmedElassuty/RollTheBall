@@ -39,4 +39,15 @@ enum Edge: Int {
         
         return (start: start, end: end)
     }
+    
+    func compatableEdge() -> Edge {
+        var rawValue: Int
+        if self.rawValue == 0 || self.rawValue == 2{
+            rawValue = 1
+        } else {
+            rawValue = -1
+        }
+        
+        return Edge(rawValue: self.rawValue + rawValue)!
+    }
 }

@@ -108,5 +108,9 @@ class Board {
             return result
         })
     }
+    
+    func getTileAtLocation(location: Location) -> Tile {
+        return grid[location.row][location.col]
+    }
 
 }

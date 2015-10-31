@@ -11,11 +11,11 @@ import Foundation
 print("Hello, World!")
 var b: Board = Board()
 
-var x = GoalTile(row: 1, col: 2)
-var y = PathTile(row: 1, col: 2, start: .Right, end: Edge.Left)
+var x = GoalTile(location: Location(1, 2), edge: .Right)
+var y = PathTile(location: (1, 2), edges: (start: .Right, end: .Left), fixed: true)
 
 var tiles = [Tile]()
-tiles.append(y!)
+tiles.append(y)
 tiles.append(x)
 
 for tile in tiles{
@@ -62,17 +62,34 @@ array.insert(7, atIndex: 0)
 print(array)
 print(array.capacity)
 
-var node: Node = Node(hValue: 1)
-var i = 0
-var s: Successor = Successor(pathCost: 1, node: Node(hValue: 1))
-node.AddSuccessor(s)
-
-s.pathCost = 2
-
-print(b.grid.description)
+//var node: Node = Node(hValue: 1)
+//var i = 0
+//var s: Successor = Successor(pathCost: 1, node: Node(hValue: 1))
+//node.AddSuccessor(s)
+//
+//s.pathCost = 2
 
 typealias RandTile = GoalTile
 
 var randTile = RandTile(location: (1,2), edge: .Right)
 
 print(randTile)
+
+//var tree = Node.generate(b.grid)
+//tree.state[0][0] = InitialTile(location: (0,0), edge: .Right)
+//print(b.grid == tree.state)
+//
+//print(b.grid.description)
+//print("-----------")
+//print(tree.state.description)
+
+
+var x1 = [[]]
+var y1 = x1
+y1[0] = [1,2,3]
+
+if x1 == y1 {
+    print("Same Reference")
+}else{
+    print("Different Reference")
+}
