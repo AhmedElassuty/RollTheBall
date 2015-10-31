@@ -10,16 +10,15 @@ import Foundation
 
 // Helper data structure represents
 // a successor node in the tree
-typealias Successor = (pathCost: Int!, node: Node!)
 
-//struct Successor {
-//    var pathCost: Int!
-//    var node: Node
-//}
 
 class Node {
     // Instance properties
-    var successors: [Successor]
+    var parentNode: Node!
+    var state: [[Tile]]!
+    var successors: [Node]
+    var depth:Int!
+    var pathCost: Int!
     var hValue: Int?
     
     // Initializers
@@ -31,12 +30,12 @@ class Node {
         self.hValue = hValue
         successors = []
     }
-
-    init(successors: [Successor]){
+    
+    init(successors: [Node]){
         self.successors = successors
     }
     
-    init(hValue: Int, successors: [Successor]){
+    init(hValue: Int, successors: [Node]){
         self.hValue = hValue
         self.successors = successors
     }
@@ -46,8 +45,8 @@ class Node {
         return successors.isEmpty
     }
     
-    func AddSuccessor(successor: Successor){
+    func AddSuccessor(successor: Node){
         successors.append(successor)
     }
-
+    
 }
