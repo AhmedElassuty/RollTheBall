@@ -69,35 +69,10 @@ node.AddSuccessor(s)
 
 s.pathCost = 2
 
-print(node.successors[0].pathCost)
-print(s.pathCost)
-
-print((1...6).randomInt)
-
-//print(b.grid)
-//b.grid.append([], atIndex: 0)
-
 print(b.grid.description)
 
-var pair = Int.randomPair(10, cols: 10)
-print(pair)
+typealias RandTile = GoalTile
 
-var edge = Edge.random()
+var randTile = RandTile(location: (1,2), edge: .Right)
 
-print(edge)
-print(edge == .Left)
-
-var uuu = Edge.randomPair()
-
-print(uuu)
-print(uuu.start)
-
-var ii: [Int] = []
-
-ii.append(1)
-
-print(ii)
-
-print(Edge.random(.Right, .Left))
-
-print(Int.random(1))
+print(randTile)

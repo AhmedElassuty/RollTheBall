@@ -8,8 +8,6 @@
 
 import Foundation
 
-typealias InitialTile = GoalTile
-
 class GoalTile: Tile {
     var opening: Edge!
     
@@ -21,5 +19,17 @@ class GoalTile: Tile {
         super.init(location: location)
         opening = edge
     }
+}
 
+class InitialTile: Tile {
+    var opening: Edge!
+    
+    override init(row: Int, col: Int, isEmpty: Bool = false, canMove: Bool = false) {
+        super.init(row: row, col: col)
+    }
+    
+    init(location: Location, edge: Edge){
+        super.init(location: location)
+        opening = edge
+    }
 }

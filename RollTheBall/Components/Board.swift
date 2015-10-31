@@ -24,6 +24,7 @@ class Board {
         initDimensions()
         initGrid()
         initBasicTiles()
+        initCorrectPath()
     }
 
     func initDimensions(){
@@ -41,25 +42,71 @@ class Board {
     }
     
     func initBasicTiles(){
-        let location =  getValidLocation()
+        func configurations() -> (vacantLocation: Location, edge: Edge){
+            let vacantLocation =  getVacantLocation()
+            let validEdges = getValidEdges(vacantLocation, fixed: true)
+//            print(validEdges)
+            let edge = Edge.random(validEdges)
+            return (vacantLocation, edge)
+        }
+
+        var conf = configurations()
+//        print(conf)
+        grid[conf.vacantLocation.row][conf.vacantLocation.col] = GoalTile(location: conf.vacantLocation, edge: conf.edge)
+        
+        conf = configurations()
+//        print(conf)
+        grid[conf.vacantLocation.row][conf.vacantLocation.col] = InitialTile(location: conf.vacantLocation, edge: conf.edge)
         
     }
     
-    func getValidLocation() -> Location {
-        var validLocations = grid.flatten().filter {
-            (tile: Tile) -> Bool in
-            if tile.isEmpty {
-                return true
+    func initCorrectPath(){
+        
+    }
+
+    func getVacantLocation() -> Location {
+        let vacantLocations = grid.reduce([Location](), combine: {
+            (var result: [Location], tiles: [Tile]) -> [Location] in
+            tiles.forEach {
+                if $0.isEmpty {
+                    result.append($0.location)
+                }
             }
-            return false
-        }
-        let randIndex = Int.random(validLocations.count)
-        let validLocation = validLocations[randIndex]
-        return (validLocation.row, validLocation.col)
+            return result
+        })
+
+        let randIndex = Int.random(vacantLocations.count)
+        let vacantLocation = vacantLocations[randIndex]
+        return vacantLocation
     }
     
-//    func getValidEdges(location: Location) -> [Edge] {
-//        
-//    }
+    func getValidEdges(location: Location, fixed: Bool) -> [Edge] {
+        var validEdges: [Int: Edge] = [ Edge.Left.rawValue: .Left, Edge.Right.rawValue: .Right
+            , Edge.Top.rawValue: .Top, Edge.Bottom.rawValue: .Bottom]
+
+        if fixed {
+            if location.row == (rows - 1) {
+                validEdges.removeValueForKey(Edge.Bottom.rawValue)
+            }
+
+            if location.row == 0 {
+                validEdges.removeValueForKey(Edge.Top.rawValue)
+            }
+            
+            if location.col == (cols - 1) {
+                validEdges.removeValueForKey(Edge.Right.rawValue)
+            }
+            
+            if location.col == 0 {
+                validEdges.removeValueForKey(Edge.Left.rawValue)
+            }
+        }
+
+        return validEdges.values.reduce([Edge](), combine: {
+            (var result: [Edge], edge: Edge) -> [Edge] in
+            result.append(edge)
+            return result
+        })
+    }
 
 }
