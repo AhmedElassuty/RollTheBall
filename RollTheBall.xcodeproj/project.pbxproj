@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0101312B1BE8E473002BC073 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0101312A1BE8E473002BC073 /* Node.swift */; settings = {ASSET_TAGS = (); }; };
+		010131311BE8E504002BC073 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010131301BE8E504002BC073 /* Operators.swift */; settings = {ASSET_TAGS = (); }; };
+		010131331BE8E513002BC073 /* Problem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010131321BE8E513002BC073 /* Problem.swift */; settings = {ASSET_TAGS = (); }; };
+		0101313F1BE8E7D0002BC073 /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0101313E1BE8E7D0002BC073 /* Search.swift */; settings = {ASSET_TAGS = (); }; };
+		010131411BE8F670002BC073 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010131401BE8F670002BC073 /* Queue.swift */; settings = {ASSET_TAGS = (); }; };
 		01055A571BE3C54B0028F446 /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01055A561BE3C54B0028F446 /* extensions.swift */; settings = {ASSET_TAGS = (); }; };
 		01055A591BE3D3350028F446 /* constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01055A581BE3D3350028F446 /* constants.swift */; settings = {ASSET_TAGS = (); }; };
 		01055A5B1BE3E2ED0028F446 /* Edge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01055A5A1BE3E2ED0028F446 /* Edge.swift */; settings = {ASSET_TAGS = (); }; };
@@ -14,9 +19,7 @@
 		0108B7011BE1A2AC00E435B1 /* BlockTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0108B6FD1BE1A2AC00E435B1 /* BlockTile.swift */; settings = {ASSET_TAGS = (); }; };
 		0108B7021BE1A2AC00E435B1 /* PathTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0108B6FE1BE1A2AC00E435B1 /* PathTile.swift */; settings = {ASSET_TAGS = (); }; };
 		0108B7031BE1A2AC00E435B1 /* Tile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0108B6FF1BE1A2AC00E435B1 /* Tile.swift */; settings = {ASSET_TAGS = (); }; };
-		0171E7CC1BDEF7760044B1C1 /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0171E7C81BDEF6AA0044B1C1 /* Board.swift */; };
-		0171E7D01BDEF93A0044B1C1 /* Tree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0171E7CF1BDEF93A0044B1C1 /* Tree.swift */; settings = {ASSET_TAGS = (); }; };
-		0171E7D21BDEFEA60044B1C1 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0171E7D11BDEFEA60044B1C1 /* Node.swift */; settings = {ASSET_TAGS = (); }; };
+		0171E7CC1BDEF7760044B1C1 /* RollTheBall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0171E7C81BDEF6AA0044B1C1 /* RollTheBall.swift */; };
 		C97644061BDEE0BF00A3BF54 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97644051BDEE0BF00A3BF54 /* main.swift */; };
 /* End PBXBuildFile section */
 
@@ -33,6 +36,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0101312A1BE8E473002BC073 /* Node.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
+		010131301BE8E504002BC073 /* Operators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
+		010131321BE8E513002BC073 /* Problem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Problem.swift; sourceTree = "<group>"; };
+		0101313E1BE8E7D0002BC073 /* Search.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
+		010131401BE8F670002BC073 /* Queue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
 		01055A561BE3C54B0028F446 /* extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
 		01055A581BE3D3350028F446 /* constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = constants.swift; sourceTree = "<group>"; };
 		01055A5A1BE3E2ED0028F446 /* Edge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Edge.swift; sourceTree = "<group>"; };
@@ -40,9 +48,7 @@
 		0108B6FD1BE1A2AC00E435B1 /* BlockTile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockTile.swift; sourceTree = "<group>"; };
 		0108B6FE1BE1A2AC00E435B1 /* PathTile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathTile.swift; sourceTree = "<group>"; };
 		0108B6FF1BE1A2AC00E435B1 /* Tile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tile.swift; sourceTree = "<group>"; };
-		0171E7C81BDEF6AA0044B1C1 /* Board.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
-		0171E7CF1BDEF93A0044B1C1 /* Tree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tree.swift; sourceTree = "<group>"; };
-		0171E7D11BDEFEA60044B1C1 /* Node.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
+		0171E7C81BDEF6AA0044B1C1 /* RollTheBall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollTheBall.swift; sourceTree = "<group>"; };
 		C97644021BDEE0BF00A3BF54 /* RollTheBall */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = RollTheBall; sourceTree = BUILT_PRODUCTS_DIR; };
 		C97644051BDEE0BF00A3BF54 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -58,6 +64,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		010131291BE8E473002BC073 /* Tree */ = {
+			isa = PBXGroup;
+			children = (
+				0101312A1BE8E473002BC073 /* Node.swift */,
+			);
+			path = Tree;
+			sourceTree = "<group>";
+		};
+		0101312F1BE8E504002BC073 /* Problem */ = {
+			isa = PBXGroup;
+			children = (
+				010131301BE8E504002BC073 /* Operators.swift */,
+				010131321BE8E513002BC073 /* Problem.swift */,
+			);
+			path = Problem;
+			sourceTree = "<group>";
+		};
 		01055A551BE3C5330028F446 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -82,7 +105,7 @@
 			isa = PBXGroup;
 			children = (
 				0108B6FB1BE1A2AC00E435B1 /* Tiles */,
-				0171E7C81BDEF6AA0044B1C1 /* Board.swift */,
+				0171E7C81BDEF6AA0044B1C1 /* RollTheBall.swift */,
 				01055A5A1BE3E2ED0028F446 /* Edge.swift */,
 			);
 			path = Components;
@@ -91,26 +114,12 @@
 		0171E7C91BDEF6B50044B1C1 /* Search */ = {
 			isa = PBXGroup;
 			children = (
-				0171E7CA1BDEF6B50044B1C1 /* Algorithms */,
-				0171E7CB1BDEF6B50044B1C1 /* Tree */,
+				0101313E1BE8E7D0002BC073 /* Search.swift */,
+				0101312F1BE8E504002BC073 /* Problem */,
+				010131291BE8E473002BC073 /* Tree */,
+				010131401BE8F670002BC073 /* Queue.swift */,
 			);
 			path = Search;
-			sourceTree = "<group>";
-		};
-		0171E7CA1BDEF6B50044B1C1 /* Algorithms */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Algorithms;
-			sourceTree = "<group>";
-		};
-		0171E7CB1BDEF6B50044B1C1 /* Tree */ = {
-			isa = PBXGroup;
-			children = (
-				0171E7CF1BDEF93A0044B1C1 /* Tree.swift */,
-				0171E7D11BDEFEA60044B1C1 /* Node.swift */,
-			);
-			path = Tree;
 			sourceTree = "<group>";
 		};
 		C97643F91BDEE0BF00A3BF54 = {
@@ -197,15 +206,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0171E7D21BDEFEA60044B1C1 /* Node.swift in Sources */,
-				0171E7D01BDEF93A0044B1C1 /* Tree.swift in Sources */,
+				0101313F1BE8E7D0002BC073 /* Search.swift in Sources */,
+				010131411BE8F670002BC073 /* Queue.swift in Sources */,
 				0108B7001BE1A2AC00E435B1 /* BasicTiles.swift in Sources */,
+				010131331BE8E513002BC073 /* Problem.swift in Sources */,
+				0101312B1BE8E473002BC073 /* Node.swift in Sources */,
 				01055A591BE3D3350028F446 /* constants.swift in Sources */,
 				0108B7031BE1A2AC00E435B1 /* Tile.swift in Sources */,
 				01055A5B1BE3E2ED0028F446 /* Edge.swift in Sources */,
 				0108B7011BE1A2AC00E435B1 /* BlockTile.swift in Sources */,
+				010131311BE8E504002BC073 /* Operators.swift in Sources */,
 				01055A571BE3C54B0028F446 /* extensions.swift in Sources */,
-				0171E7CC1BDEF7760044B1C1 /* Board.swift in Sources */,
+				0171E7CC1BDEF7760044B1C1 /* RollTheBall.swift in Sources */,
 				0108B7021BE1A2AC00E435B1 /* PathTile.swift in Sources */,
 				C97644061BDEE0BF00A3BF54 /* main.swift in Sources */,
 			);

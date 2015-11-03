@@ -50,4 +50,12 @@ enum Edge: Int {
         
         return Edge(rawValue: self.rawValue + rawValue)!
     }
+    
+    func isCompatableWith(edge: Edge) -> Bool{
+        if (self.compatableEdge() == edge) {
+            return true
+        }
+        
+        return false
+    }
 }

@@ -12,10 +12,9 @@ typealias Location = (row: Int!, col: Int!)
 
 class Tile {
     // Instance properties
-    var location: Location! = (0,0)
+    var location: Location!
     var fixed = false
     var isEmpty = true
-    var moved = false
 
     // Initializers
     init(){}
