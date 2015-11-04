@@ -20,6 +20,7 @@
 		0108B7021BE1A2AC00E435B1 /* PathTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0108B6FE1BE1A2AC00E435B1 /* PathTile.swift */; settings = {ASSET_TAGS = (); }; };
 		0108B7031BE1A2AC00E435B1 /* Tile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0108B6FF1BE1A2AC00E435B1 /* Tile.swift */; settings = {ASSET_TAGS = (); }; };
 		0171E7CC1BDEF7760044B1C1 /* RollTheBall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0171E7C81BDEF6AA0044B1C1 /* RollTheBall.swift */; };
+		01915A011BEA803200A186A4 /* helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01915A001BEA803200A186A4 /* helpers.swift */; settings = {ASSET_TAGS = (); }; };
 		C97644061BDEE0BF00A3BF54 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97644051BDEE0BF00A3BF54 /* main.swift */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +50,7 @@
 		0108B6FE1BE1A2AC00E435B1 /* PathTile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathTile.swift; sourceTree = "<group>"; };
 		0108B6FF1BE1A2AC00E435B1 /* Tile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tile.swift; sourceTree = "<group>"; };
 		0171E7C81BDEF6AA0044B1C1 /* RollTheBall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollTheBall.swift; sourceTree = "<group>"; };
+		01915A001BEA803200A186A4 /* helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = helpers.swift; sourceTree = "<group>"; };
 		C97644021BDEE0BF00A3BF54 /* RollTheBall */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = RollTheBall; sourceTree = BUILT_PRODUCTS_DIR; };
 		C97644051BDEE0BF00A3BF54 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -86,6 +88,7 @@
 			children = (
 				01055A561BE3C54B0028F446 /* extensions.swift */,
 				01055A581BE3D3350028F446 /* constants.swift */,
+				01915A001BEA803200A186A4 /* helpers.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -220,6 +223,7 @@
 				0171E7CC1BDEF7760044B1C1 /* RollTheBall.swift in Sources */,
 				0108B7021BE1A2AC00E435B1 /* PathTile.swift in Sources */,
 				C97644061BDEE0BF00A3BF54 /* main.swift in Sources */,
+				01915A011BEA803200A186A4 /* helpers.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

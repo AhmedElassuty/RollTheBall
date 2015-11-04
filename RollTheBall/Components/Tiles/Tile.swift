@@ -8,7 +8,24 @@
 
 import Foundation
 
-typealias Location = (row: Int!, col: Int!)
+//typealias Location = (row: Int!, col: Int!)
+
+struct Location {
+    var row: Int!
+    var col: Int!
+    
+    init(row: Int!, col: Int!){
+        self.row = row
+        self.col = col
+    }
+    
+    func equal(location: Location) -> Bool {
+        if self.row == location.row && self.col == self.col {
+            return true
+        }
+        return false
+    }
+}
 
 class Tile {
     // Instance properties
@@ -20,7 +37,7 @@ class Tile {
     init(){}
 
     init(row: Int, col: Int, isEmpty: Bool = false, fixed: Bool = false){
-        location = (row, col)
+        location = Location(row: row, col: col)
         self.fixed = fixed
         self.isEmpty = isEmpty
     }
@@ -35,13 +52,13 @@ class Tile {
         var location: Location!
         switch exitEdge {
         case .Right:
-            location = (self.location.row, self.location.col + 1)
+            location = Location(row: self.location.row, col: self.location.col + 1)
         case .Left:
-            location = (self.location.row, self.location.col - 1)
+            location = Location(row: self.location.row, col: self.location.col - 1)
         case .Top:
-            location = (self.location.row - 1, self.location.col)
+            location = Location(row: self.location.row - 1, col: self.location.col)
         case .Bottom:
-            location = (self.location.row + 1, self.location.col)
+            location = Location(row: self.location.row + 1, col: self.location.col)
         }
 
         if location.row < 0 || location.col < 0 || location.row == boardlimits.row || location.col == boardlimits.col {

@@ -9,13 +9,18 @@
 import Foundation
 
 class Problem {
-    var actions: [Operator]!
+    var operators: [Operator]!
     var initialState: [[Tile]]!
-    // state space
+    var stateSpace: [String: [[Tile]]] = [String: [[Tile]]]()
     // path cost
     // goal test
     
-    static func goalState(state: [[Tile]]) -> Bool{
+    
+    // Intializer
+    init(){
+    }
+    
+    static func goalState(state: [[Tile]]) -> Bool {
         return false
     }
     

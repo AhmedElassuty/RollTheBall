@@ -38,7 +38,7 @@ class RollTheBall: Problem {
         for row in 0...(rows - 1) {
             grid.append([])
             for col in 0...(cols - 1) {
-                grid[row].append(Tile(location: (row, col), isEmpty: true))
+                grid[row].append(Tile(location: Location(row: row, col: col), isEmpty: true))
             }
         }
     }
@@ -123,19 +123,19 @@ class RollTheBall: Problem {
             }
         }
             // check the top edge tile
-            var targetLocation = Location(location.row - 1, location.col)
+            var targetLocation = Location(row: location.row - 1, col: location.col)
             checkNearByTiles(targetLocation, edge: .Top)
 
             // check the bottom edge tile
-            targetLocation = Location(location.row + 1, location.col)
+            targetLocation = Location(row: location.row + 1, col: location.col)
             checkNearByTiles(targetLocation, edge: .Bottom)
             
             // check the right edge tile
-            targetLocation = Location(location.row, location.col + 1)
+            targetLocation = Location(row: location.row, col: location.col + 1)
             checkNearByTiles(targetLocation, edge: .Right)
 
             // check the left edge tile
-            targetLocation = Location(location.row, location.col - 1)
+            targetLocation = Location(row: location.row, col: location.col - 1)
             checkNearByTiles(targetLocation, edge: .Left)
             
             // check if we can put a fixed tile at the provided location
