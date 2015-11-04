@@ -48,9 +48,11 @@ class Queue<T> {
             data.insert(value, atIndex: insertionFunc(self.data))
         }
     }
-    
-    func enqueue(value: T, insertionFunc: (([T], T) -> Int)){
-        data.insert(value, atIndex: insertionFunc(self.data, value))
+
+    func enqueue(values: [T], insertionFunc: (Array<T>, T, T -> Int) -> Int, evalFunc: T -> Int) {
+        for value in values {
+            data.insert(value, atIndex: insertionFunc(self.data, value, evalFunc))
+        }
     }
 }
 
