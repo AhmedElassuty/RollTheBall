@@ -13,7 +13,7 @@ enum Strategy: Int {
 }
 
 func search(grid: [[Tile]], strategy: Strategy, visualize: Bool){
-    let problem = RollTheBall()
+    let problem = RollTheBall(grid: grid)
     switch strategy {
     case .BF:
         breadthFirst(problem)
@@ -31,40 +31,52 @@ func search(grid: [[Tile]], strategy: Strategy, visualize: Bool){
 }
 
 // Search Algorithms
-func generalSearch(problem: Problem, enqueueFunc: [Node] -> Int) -> Node? {
+private func generalSearch(problem: Problem, enqueueFunc: [Node] -> Int) -> Node? {
     let problem = problem as! RollTheBall
-    let initialNode: Node = Node(parentNode: nil, state: problem.initialState, depth: 0, pathCost: nil, hValue: nil, action: nil)
+    
+    // hash the initialState
+    let intialStateHashValue = hashGrid(problem.initialState)
+
+    // Add it to the stateSpace
+    problem.stateSpace[intialStateHashValue] = problem.initialState
+
+    // create initialNode for the initialState
+    let initialNode: Node = Node(parentNode: nil, state: intialStateHashValue, depth: 0, pathCost: nil, hValue: nil, action: nil)
+    
+    // create processing queue
     var nodes = Queue<Node>(data: initialNode)
+
     while !nodes.isEmpty {
         let node = nodes.dequeue()
-        if RollTheBall.goalState(node.state) {
+        if problem.goalState(node.state) {
             return node
         }
         // expand next level of the current node
         // and add the expanded nodes to the queue
         nodes.enqueue(node.expand(problem), insertionFunc: enqueueFunc)
     }
+
     return nil
 }
 
-func generalSearch(problem: Problem, enqueueFunc: ([Node], Node, Node -> Int) -> Int, heuristicFunc: Node -> Int) -> Node? {
+private func generalSearch(problem: Problem, enqueueFunc: ([Node], Node, Node -> Int) -> Int, heuristicFunc: Node -> Int) -> Node? {
     _ = Queue<Node>()
     return Node()
 }
 
-func breadthFirst(problem: Problem) -> Node? {
+private func breadthFirst(problem: Problem) -> Node? {
     return generalSearch(problem, enqueueFunc: enqueueLast)
 }
 
-func depthFirstSearch(problem: Problem) -> Node? {
+private func depthFirstSearch(problem: Problem) -> Node? {
     return generalSearch(problem, enqueueFunc: enqueueFirst)
 }
 
-func depthLimitedSearch(problem: Problem, depth: Int) -> Node? {
+private func depthLimitedSearch(problem: Problem, depth: Int) -> Node? {
     return generalSearch(problem, enqueueFunc: enqueueFirst)
 }
 
-func iterativeDeepening(problem: Problem) -> Node? {
+private func iterativeDeepening(problem: Problem) -> Node? {
     for var depth = 0; true; depth++ {
         if let result = depthLimitedSearch(problem, depth: depth){
             return result
@@ -72,11 +84,11 @@ func iterativeDeepening(problem: Problem) -> Node? {
     }
 }
 
-func bestFirstSearch(problem: Problem, evalFunc: Node -> Int, heuristicFunc: Node -> Int) -> Node? {
+private func bestFirstSearch(problem: Problem, evalFunc: Node -> Int, heuristicFunc: Node -> Int) -> Node? {
     return generalSearch(problem, enqueueFunc: enqueueInIncreasingOrder, heuristicFunc: heuristicFunc)
 }
 
-func greedySearch(problem: Problem, heuristicFunc: (Node) -> Int) -> Node? {
+private func greedySearch(problem: Problem, heuristicFunc: (Node) -> Int) -> Node? {
     func greedyEvalFunc(node: Node) -> Int {
         return node.hValue!
     }
@@ -84,7 +96,7 @@ func greedySearch(problem: Problem, heuristicFunc: (Node) -> Int) -> Node? {
     return bestFirstSearch(problem, evalFunc: greedyEvalFunc, heuristicFunc: heuristicFunc)
 }
 
-func aStartSearch(problem: Problem, heuristicFunc: (Node) -> Int) -> Node? {
+private func aStartSearch(problem: Problem, heuristicFunc: (Node) -> Int) -> Node? {
     func A_StarEvalFunc(node: Node) -> Int {
         return node.hValue! + node.pathCost!
     }
@@ -106,15 +118,15 @@ func aStarHeuristicFunc(node: Node) -> Int {
 }
 
 // Queue configurations
-func enqueueLast<Node>(input: [Node]) -> Int {
+private func enqueueLast<Node>(input: [Node]) -> Int {
     return input.count
 }
 
-func enqueueFirst<Node>(input: [Node]) -> Int{
+private func enqueueFirst<Node>(input: [Node]) -> Int{
     return 0
 }
 
-func enqueueInIncreasingOrder(nodes: [Node], toBeInserted: Node, evalFunc: Node -> Int) -> Int {
+private func enqueueInIncreasingOrder(nodes: [Node], toBeInserted: Node, evalFunc: Node -> Int) -> Int {
     for var i = 0; i < nodes.count; i++ {
         let node = nodes[i]
         if evalFunc(node) > evalFunc(node) {

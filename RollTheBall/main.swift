@@ -43,3 +43,6 @@ var l1: Location = Location(row: 1,col: 2)
 var l2: Location = Location(row: 2, col: 2)
 
 print(l1.equal(l2))
+
+
+RollTheBall.goalState([[Tile]]())

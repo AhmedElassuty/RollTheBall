@@ -17,11 +17,12 @@ class Problem {
     
     
     // Intializer
-    init(){
+    init(grid: [[Tile]]){
+        self.initialState = grid
     }
     
-    static func goalState(state: [[Tile]]) -> Bool {
-        return false
+    func goalState(stateHashValue: String) -> Bool {
+        assert(false, "This method must be overrided by the subclass")
     }
     
 }
