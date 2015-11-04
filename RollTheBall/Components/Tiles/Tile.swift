@@ -25,6 +25,10 @@ struct Location {
         }
         return false
     }
+    
+    func translate(factor: Location) -> Location {
+        return Location(row: self.row + factor.row, col: self.col + factor.col)
+    }
 }
 
 class Tile {

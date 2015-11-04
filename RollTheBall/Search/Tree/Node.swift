@@ -72,7 +72,8 @@ class Node {
                         // create new state
                         var newState: [[Tile]] = parentState!
                         
-                        // apply the action by swapping the tiles
+                        // apply the current action by changing
+                        // the targeted tiles locations in the new state
                         let tileToSwapWith = parentState![newLocation.row][newLocation.col]
                         newState[tile.location.row][tile.location.col] = tileToSwapWith
                         tile.location = newLocation

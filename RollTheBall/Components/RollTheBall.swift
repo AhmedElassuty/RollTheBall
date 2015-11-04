@@ -24,7 +24,29 @@ class RollTheBall: Problem {
     // Methods
     override func goalState(stateHashValue: String) -> Bool {
         var state = stateSpace[stateHashValue]
-        return true
+        let initialTile: InitialTile = (state!.flatten().filter { $0 is InitialTile}.first)! as! InitialTile
+        let compatableEdge: Edge = initialTile.exitEdge.compatableEdge()
+        let nextLocation = initialTile.location.translate(initialTile.exitEdge.translationFactor())
+        
+        func recursive(targetLocation: Location, targetEdge: Edge) -> Bool {
+            let nextTile = state![targetLocation.row][targetLocation.col]
+            
+            if nextTile is PathTile {
+//                (nextTile as! PathTile).config
+                
+                return true
+            }
+            
+            if nextTile is GoalTile {
+                if (nextTile as! GoalTile).enterEdge.isCompatableWith(targetEdge) {
+                    return true
+                }
+            }
+            
+            return false
+        }
+        
+        return recursive(nextLocation, targetEdge: compatableEdge)
     }
     
     func isOutOfBounds(location: Location) -> Bool {
