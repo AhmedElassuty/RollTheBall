@@ -126,24 +126,24 @@ func visualizeBoard(grid: [[Tile]]){
     }
     print(horizontalBorder)
     for row in 0...grid.count-1 {
-        var right = "+", left = "+", top = "+", bottom = "+"
+        var right = "|", left = "|", top = "¯", bottom = "_"
         horizontalvalues = "|"
         topHorizontalSpace = "|"
         bottomHorizontalSpace = "|"
         for tile in grid[row] {
             switch tile {
             case is PathTile:
-                right  = (tile as! PathTile).config.contains(.Right)  ? " " : "+"
-                left   = (tile as! PathTile).config.contains(.Left)   ? " " : "+"
-                top    = (tile as! PathTile).config.contains(.Top)    ? " " : "+"
-                bottom = (tile as! PathTile).config.contains(.Bottom) ? " " : "+"
+                right  = (tile as! PathTile).config.contains(.Right)  ? " " : "|"
+                left   = (tile as! PathTile).config.contains(.Left)   ? " " : "|"
+                top    = (tile as! PathTile).config.contains(.Top)    ? " " : "¯"
+                bottom = (tile as! PathTile).config.contains(.Bottom) ? " " : "_"
             default:
-                right = "+"; left = "+"; top = "+"; bottom = "+"
+                right = "|"; left = "|"; top = "¯"; bottom = "_"
                 break
             }
-            topHorizontalSpace += "+++\(top)+++|"
+            topHorizontalSpace += "|¯¯\(top)¯¯||"
             horizontalvalues += "\(left)  \(stateSpaceId(tile))  \(right)|"
-            bottomHorizontalSpace += "+++\(bottom)+++|"
+            bottomHorizontalSpace += "|__\(bottom)__||"
         }
         
         print(topHorizontalSpace)
