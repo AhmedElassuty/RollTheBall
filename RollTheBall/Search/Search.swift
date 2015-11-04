@@ -61,7 +61,6 @@ private func generalSearch(problem: Problem, enqueueFunc: [Node] -> Int) -> Node
     return nil
 }
 
-
 // for search algorithms with heuristic function
 private func generalSearch(problem: Problem, evalFunc: Node -> Int, heuristicFunc: Node -> Int) -> Node? {
     let problem = problem as! RollTheBall

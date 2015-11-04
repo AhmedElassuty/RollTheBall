@@ -58,4 +58,17 @@ enum Edge: Int {
         
         return false
     }
+    
+    func translationFactor() -> Location {
+        switch self {
+        case .Right:
+            return Location(row: 0,col: 1)
+        case .Left:
+            return Location(row: 0,col: -1)
+        case .Top:
+            return Location(row: -1, col: 0)
+        case .Bottom:
+            return Location(row: 1,col: 0)
+        }
+    }
 }
