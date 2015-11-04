@@ -10,19 +10,16 @@ import Foundation
 
 
 class PathTile: Tile {
+    var config: [Edge]!
     var start: Edge!
     var end  : Edge!
     
-    init(location: Location, edges: (start: Edge, end: Edge), fixed: Bool) {
+    init(location: Location, config: [Edge], fixed: Bool) {
         super.init(location: location, fixed: fixed)
-        self.start = edges.start
-        self.end = edges.end
+        self.config = config
     }
     
     func hasCompatableEdgeWith(edge: Edge) -> Bool {
-        if start.isCompatableWith(edge) || end.isCompatableWith(edge) {
-            return true
-        }
-        return false
+        return !config.filter{$0.isCompatableWith(edge)}.isEmpty
     }
 }
