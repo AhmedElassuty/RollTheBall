@@ -8,6 +8,8 @@
 
 import Foundation
 
+genGrid()
 
 //let grid: [[Tile]] = genGrid()
 //search(grid, strategy: Strategy.BF, visualize: false)
+
