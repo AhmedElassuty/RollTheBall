@@ -29,20 +29,26 @@ class RollTheBall: Problem {
         let nextLocation = initialTile.location.translate(initialTile.exitEdge.translationFactor())
         
         func recursive(targetLocation: Location, targetEdge: Edge) -> Bool {
-            let nextTile = state![targetLocation.row][targetLocation.col]
+            if targetLocation.withInRange(rows, col: cols){
+                let nextTile = state![targetLocation.row][targetLocation.col]
             
-            if nextTile is PathTile {
-//                (nextTile as! PathTile).config
-                
-                return true
-            }
-            
-            if nextTile is GoalTile {
-                if (nextTile as! GoalTile).enterEdge.isCompatableWith(targetEdge) {
+                if nextTile is PathTile {
+                    let pathTile = (nextTile as! PathTile)
+                    if pathTile.config.contains(targetEdge){
+                        let exitEdge = pathTile.config.filter { $0 != targetEdge }.first
+                        let location = pathTile.location.translate((exitEdge?.translationFactor())!)
+                        return recursive(location, targetEdge: (exitEdge?.compatableEdge())!)
+                    }
                     return true
                 }
-            }
             
+                if nextTile is GoalTile {
+                    if (nextTile as! GoalTile).enterEdge.isCompatableWith(targetEdge) {
+                        return true
+                    }
+                }
+            }
+
             return false
         }
         
