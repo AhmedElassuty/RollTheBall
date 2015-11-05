@@ -89,13 +89,20 @@ func genGrid() -> [[Tile]] {
     
     
     // Shuffle Types
-    for i in 0 ..< (types.count - 1) {
-        let j = Int(arc4random_uniform(UInt32(types.count - i))) + i
-        if i != j{
-            swap(&types[i], &types[j])
+    var initIndex:Int!
+    var goalIndex:Int!
+    repeat{
+        for i in 0 ..< (types.count - 1) {
+            let j = Int(arc4random_uniform(UInt32(types.count - i))) + i
+            if i != j{
+                swap(&types[i], &types[j])
+            }
+            
         }
-        
-    }
+        initIndex = types.indexOf {$0 == .Initial}
+        goalIndex = types.indexOf {$0 == .Goal}
+    }while (initIndex-1 ==  goalIndex || initIndex+1 ==  goalIndex || initIndex%dimensions.cols ==  goalIndex%dimensions.cols)
+ 
     
     // Create Tiles
     
