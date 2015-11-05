@@ -114,8 +114,6 @@ private func generalSearch(problem: Problem, enqueueFunc: [Node] -> Int) -> Node
 
 // for search algorithms with heuristic function
 private func generalSearch(problem: Problem, evalFunc: Node -> Int, heuristicFunc: Node -> Int) -> Node? {
-    let problem = problem as! RollTheBall
-    
     // hash the initialState
     let intialStateHashValue = hashGrid(problem.initialState)
     
