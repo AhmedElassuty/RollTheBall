@@ -10,14 +10,16 @@ import Foundation
 
 var numberOfExaminedNodes: Int = 0
 var numberOfNodesExpanded: Int = 0
+var dequeuedNodes: [Node] = []
 
 enum Strategy: Int {
     case BF, DF, ID, GR_1, GR_2, A_Start
 }
 
-func search(grid: [[Tile]], strategy: Strategy, visualize: Bool){
+func search(grid: [[Tile]], strategy: Strategy, visualize: Bool, showStep: Bool = false){
     numberOfExaminedNodes = 0
     numberOfNodesExpanded = 0
+    dequeuedNodes = []
     let problem = RollTheBall(grid: grid)
     let result: Node?
     switch strategy {
@@ -38,11 +40,19 @@ func search(grid: [[Tile]], strategy: Strategy, visualize: Bool){
     // return parameters
     
     // backtrack correct path if any
-    if result != nil {
-        print("--------------- Correct path backtrack ---------------")
-        correctPath(problem, node: result!)
-    } else {
-        print("No Solution")
+    if visualize {
+        if result != nil {
+            print("--------------- Correct path ---------------")
+            correctPath(problem, node: result!)
+        }
+    }
+    
+    if (showStep){
+        stepTrack(problem)
+    }
+    
+    if result == nil {
+        print(" No Solution")
     }
     
     // cost
@@ -51,6 +61,12 @@ func search(grid: [[Tile]], strategy: Strategy, visualize: Bool){
 
     print("--------------- Number of nodes chosen for expansion ---------------")
     print("Number of Nodes expaneded \(numberOfNodesExpanded)")
+}
+
+func stepTrack(problem: Problem){
+    for node in dequeuedNodes {
+        visualizeBoard(problem.stateSpace[node.state]!)
+    }
 }
 
 func correctPath(problem: Problem, node: Node){
@@ -82,6 +98,7 @@ private func generalSearch(problem: Problem, enqueueFunc: [Node] -> Int) -> Node
     let nodes = Queue<Node>(data: initialNode)
     while !nodes.isEmpty {
         let node = nodes.dequeue()
+        dequeuedNodes.append(node)
         numberOfExaminedNodes++
         if problem.goalState(node.state) {
             return node
@@ -91,8 +108,6 @@ private func generalSearch(problem: Problem, enqueueFunc: [Node] -> Int) -> Node
         nodes.enqueue(node.expand(rollTheBall), insertionFunc: enqueueFunc)
         numberOfNodesExpanded++
     }
-    
-    print("Number of states expaneded \(problem.stateSpace.count)")
 
     return nil
 }
