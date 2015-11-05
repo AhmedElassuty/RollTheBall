@@ -9,7 +9,7 @@
 import Foundation
 
 var numberOfExaminedNodes: Int = 0
-var numberOfExpandedNodes: Int = 0
+var numberOfNodesExpanded: Int = 0
 
 enum Strategy: Int {
     case BF, DF, ID, GR_1, GR_2, A_Start
@@ -17,7 +17,7 @@ enum Strategy: Int {
 
 func search(grid: [[Tile]], strategy: Strategy, visualize: Bool){
     numberOfExaminedNodes = 0
-    numberOfExpandedNodes = 0
+    numberOfNodesExpanded = 0
     let problem = RollTheBall(grid: grid)
     let result: Node?
     switch strategy {
@@ -49,8 +49,8 @@ func search(grid: [[Tile]], strategy: Strategy, visualize: Bool){
     print("--------------- Cost of the solution ---------------")
     print("Cost = \(numberOfExaminedNodes)")
 
-    print("--------------- Number of nodes expanded ---------------")
-    print("Number of Nodes expaneded \(numberOfExpandedNodes)")
+    print("--------------- Number of nodes chosen for expansion ---------------")
+    print("Number of Nodes expaneded \(numberOfNodesExpanded)")
 }
 
 func correctPath(problem: Problem, node: Node){
@@ -88,9 +88,8 @@ private func generalSearch(problem: Problem, enqueueFunc: [Node] -> Int) -> Node
         }
         // expand next level of the current node
         // and add the expanded nodes to the queue
-        let expandedNodes = node.expand(rollTheBall)
-        numberOfExpandedNodes += expandedNodes.count
-        nodes.enqueue(expandedNodes, insertionFunc: enqueueFunc)
+        nodes.enqueue(node.expand(rollTheBall), insertionFunc: enqueueFunc)
+        numberOfNodesExpanded++
     }
     
     print("Number of states expaneded \(problem.stateSpace.count)")
