@@ -57,7 +57,7 @@ func genGrid() -> [[Tile]] {
         case Blank, Path, Block, Initial, Goal
     }
     var types: [TileTypes] = [.Initial, .Goal]
-    if numberOfBlockTiles-1 > 0 {
+    if numberOfBlockTiles-1 >= 0 {
         for _ in 0...numberOfBlockTiles-1 {
             types.append(.Block)
         }
@@ -134,13 +134,13 @@ func visualizeBoard(grid: [[Tile]]){
     let rightSeparator = "|", leftSeparator = "|", topSeparator = "¯", bottomSeparator = "_"
     let rightArrow = "→", leftArrow = "←", topArrow = "↑", bottomArrow = "↓"
     var right = rightSeparator, left = leftSeparator, top = topSeparator, bottom = bottomSeparator
-    var horizontalBorder = "|", topHorizontalSpace = "|", bottomHorizontalSpace = "|", horizontalvalues = "|"
+    var horizontalBorder = " ", topHorizontalSpace = "|", bottomHorizontalSpace = "|", horizontalvalues = "|"
     for _ in 0...grid[0].count-1 {
-        horizontalBorder += "_______|"
+        horizontalBorder += "        "
     }
     print(horizontalBorder)
     for row in 0...grid.count-1 {
-        horizontalvalues = "|" ; topHorizontalSpace = "|" ; bottomHorizontalSpace = "|"
+        horizontalvalues = " " ; topHorizontalSpace = " " ; bottomHorizontalSpace = " "
         for tile in grid[row] {
             switch tile {
             case is PathTile:
@@ -164,9 +164,9 @@ func visualizeBoard(grid: [[Tile]]){
                 right = rightSeparator ; left = leftSeparator ; top = topSeparator ; bottom = bottomSeparator
                 break
             }
-            topHorizontalSpace += "|\(topSeparator + topSeparator + top + topSeparator + topSeparator)||"
-            horizontalvalues += "\(left)  \(stateSpaceId(tile))  \(right)|"
-            bottomHorizontalSpace += "|\(bottomSeparator + bottomSeparator + bottom + bottomSeparator + bottomSeparator)||"
+            topHorizontalSpace += "|\(topSeparator + topSeparator + top + topSeparator + topSeparator)| "
+            horizontalvalues += "\(left)  \(stateSpaceId(tile))  \(right) "
+            bottomHorizontalSpace += "|\(bottomSeparator + bottomSeparator + bottom + bottomSeparator + bottomSeparator)| "
         }
  
         
