@@ -21,13 +21,26 @@ enum Operator: Int {
         return false
     }
     
+    func inverse() -> Operator {
+        switch self{
+        case .West:
+            return .East
+        case .East:
+            return .West
+        case .North:
+            return .South
+        case .South:
+            return .North
+        }
+    }
+    
     func apply(oldLocation: Location) -> Location {
         var newLocation: Location
         switch self {
         case .East:
-            newLocation = Location(row: oldLocation.row, col: oldLocation.col - 1)
-        case .West:
             newLocation = Location(row: oldLocation.row, col: oldLocation.col + 1)
+        case .West:
+            newLocation = Location(row: oldLocation.row, col: oldLocation.col - 1)
         case .North:
             newLocation = Location(row: oldLocation.row - 1, col: oldLocation.col)
         case .South:
@@ -35,6 +48,10 @@ enum Operator: Int {
         }
         
         return newLocation
+    }
+    
+    static func getAll() -> [Operator]{
+        return [.East, .West, .North, .South]
     }
 
 }

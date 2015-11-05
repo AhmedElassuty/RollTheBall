@@ -29,6 +29,13 @@ struct Location {
     func translate(factor: Location) -> Location {
         return Location(row: self.row + factor.row, col: self.col + factor.col)
     }
+    
+    func withInRange(row: Int, col: Int) -> Bool {
+        if self.row < 0 || self.row >= row || self.col < 0 || self.col >= col {
+            return false
+        }
+        return true
+    }
 }
 
 class Tile {
@@ -73,4 +80,9 @@ class Tile {
     }
 }
 
-class BlankTile: Tile {}
+class BlankTile: Tile {
+    
+    init(location: Location) {
+        super.init(location: location)
+    }
+}

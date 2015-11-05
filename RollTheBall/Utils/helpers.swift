@@ -56,10 +56,10 @@ func genGrid() -> [[Tile]] {
         case Blank, Path, Block, Initial, Goal
     }
     var types: [TileTypes] = [.Initial, .Goal]
-    for _ in 0...numberOfBlockTiles-1 {
+    for _ in 0...numberOfBlockTiles {
         types.append(.Block)
     }
-    for _ in 0...numberOfBlankTiles-1 {
+    for _ in 0...numberOfBlankTiles {
         types.append(.Blank)
     }
     

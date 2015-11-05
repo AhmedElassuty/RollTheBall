@@ -17,6 +17,7 @@ class RollTheBall: Problem {
     // Initializers
     override init(grid: [[Tile]]){
         super.init(grid: grid)
+        operators = Operator.getAll()
         rows = grid.count
         cols = grid[0].count
     }
@@ -27,22 +28,27 @@ class RollTheBall: Problem {
         let initialTile: InitialTile = (state!.flatten().filter { $0 is InitialTile}.first)! as! InitialTile
         let compatableEdge: Edge = initialTile.exitEdge.compatableEdge()
         let nextLocation = initialTile.location.translate(initialTile.exitEdge.translationFactor())
-        
         func recursive(targetLocation: Location, targetEdge: Edge) -> Bool {
-            let nextTile = state![targetLocation.row][targetLocation.col]
+            if targetLocation.withInRange(rows, col: cols){
+                let nextTile = state![targetLocation.row][targetLocation.col]
             
-            if nextTile is PathTile {
-//                (nextTile as! PathTile).config
-                
-                return true
-            }
+                if nextTile is PathTile {
+                    let pathTile = (nextTile as! PathTile)
+                    if pathTile.config.contains(targetEdge){
+                        let exitEdge = pathTile.config.filter { $0 != targetEdge }.first
+                        let location = pathTile.location.translate((exitEdge?.translationFactor())!)
+                        return recursive(location, targetEdge: (exitEdge?.compatableEdge())!)
+                    }
+                    return false
+                }
             
-            if nextTile is GoalTile {
-                if (nextTile as! GoalTile).enterEdge.isCompatableWith(targetEdge) {
-                    return true
+                if nextTile is GoalTile {
+                    if (nextTile as! GoalTile).enterEdge.isCompatableWith(targetEdge) {
+                        return true
+                    }
                 }
             }
-            
+
             return false
         }
         
