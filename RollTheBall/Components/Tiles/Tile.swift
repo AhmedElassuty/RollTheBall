@@ -36,6 +36,10 @@ struct Location {
         }
         return true
     }
+    
+    func toString() -> String {
+        return "(\(self.row), \(self.col))"
+    }
 }
 
 class Tile {
