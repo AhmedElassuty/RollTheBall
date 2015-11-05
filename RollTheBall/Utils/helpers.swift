@@ -109,7 +109,6 @@ func genGrid() -> [[Tile]] {
                grid[row].append(InitialTile(location: location, edge: findFreeEdge(location, dimentions: dimensions)))
             }
             //grid[row-1].append()
-            
         }
     }
     print("Grid Hash                  = \(hashGrid(grid))")

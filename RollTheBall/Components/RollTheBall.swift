@@ -24,36 +24,41 @@ class RollTheBall: Problem {
 
     // Methods
     override func goalState(stateHashValue: String) -> Bool {
-        var state = stateSpace[stateHashValue]
+        let state = stateSpace[stateHashValue]
         let initialTile: InitialTile = (state!.flatten().filter { $0 is InitialTile}.first)! as! InitialTile
         let compatableEdge: Edge = initialTile.exitEdge.compatableEdge()
         let nextLocation = initialTile.location.translate(initialTile.exitEdge.translationFactor())
-        func recursive(targetLocation: Location, targetEdge: Edge) -> Bool {
-            if targetLocation.withInRange(rows, col: cols){
+
+        func recursiveGoalTest(targetLocation: Location, targetEdge: Edge) -> Bool {
+            if targetLocation.withInRange(rows, col: cols) {
                 let nextTile = state![targetLocation.row][targetLocation.col]
-            
+                
                 if nextTile is PathTile {
                     let pathTile = (nextTile as! PathTile)
                     if pathTile.config.contains(targetEdge){
                         let exitEdge = pathTile.config.filter { $0 != targetEdge }.first
-                        let location = pathTile.location.translate((exitEdge?.translationFactor())!)
-                        return recursive(location, targetEdge: (exitEdge?.compatableEdge())!)
+                        let location = pathTile.location.translate(exitEdge!.translationFactor())
+                        return recursiveGoalTest(location, targetEdge: (exitEdge?.compatableEdge())!)
                     }
+                    // not compatable path tile
                     return false
                 }
-            
-                if nextTile is GoalTile {
-                    if (nextTile as! GoalTile).enterEdge.isCompatableWith(targetEdge) {
-                        return true
-                    }
+                
+                if nextTile is GoalTile && (nextTile as! GoalTile).enterEdge == targetEdge {
+                    return true
                 }
             }
-
+            
+            // any other tile
+            // or out of board bounds
             return false
         }
         
-        return recursive(nextLocation, targetEdge: compatableEdge)
+        
+        return recursiveGoalTest(nextLocation, targetEdge: compatableEdge)
     }
+    
+
     
     func isOutOfBounds(location: Location) -> Bool {
         if location.row < 0 || location.row >= rows || location.col < 0 || location.col >= cols {

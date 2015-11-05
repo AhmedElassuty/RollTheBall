@@ -38,10 +38,10 @@ func search(grid: [[Tile]], strategy: Strategy, visualize: Bool){
 }
 
 func getCorrectPath(problem: Problem, node: Node){
+    visualizeBoard(problem.stateSpace[node.state]!)
     if node.parentNode == nil {
         return
     }
-    visualizeBoard(problem.stateSpace[node.state]!)
     getCorrectPath(problem, node: node.parentNode!)
 }
 
@@ -49,28 +49,28 @@ func getCorrectPath(problem: Problem, node: Node){
 
 // for search algorithms without heuristic function
 private func generalSearch(problem: Problem, enqueueFunc: [Node] -> Int) -> Node? {
-    let problem = problem as! RollTheBall
-    
+    let rollTheBall = problem as! RollTheBall
     // hash the initialState
-    let intialStateHashValue = hashGrid(problem.initialState)
+    let initialStateHashValue = hashGrid(rollTheBall.initialState)
 
     // Add it to the stateSpace
-    problem.stateSpace[intialStateHashValue] = problem.initialState
+    rollTheBall.stateSpace[initialStateHashValue] = rollTheBall.initialState
 
     // create initialNode for the initialState
-    let initialNode: Node = Node(parentNode: nil, state: intialStateHashValue, depth: 0, pathCost: 0, hValue: nil, action: nil)
+    let initialNode: Node = Node(parentNode: nil, state: initialStateHashValue, depth: 0, pathCost: 0, hValue: nil, action: nil)
     
     // create processing queue
     var nodes = Queue<Node>(data: initialNode)
-
+    var examinedNodes: [Node] = []
     while !nodes.isEmpty {
         let node = nodes.dequeue()
+        examinedNodes.append(node)
         if problem.goalState(node.state) {
             return node
         }
         // expand next level of the current node
         // and add the expanded nodes to the queue
-        nodes.enqueue(node.expand(problem), insertionFunc: enqueueFunc)
+        nodes.enqueue(node.expand(rollTheBall), insertionFunc: enqueueFunc)
     }
     
     print(problem.stateSpace.count)

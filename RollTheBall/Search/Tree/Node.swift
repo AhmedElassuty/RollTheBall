@@ -41,6 +41,7 @@ class Node {
         
         // current parent state
         let parentState = problem.stateSpace[self.state]
+        let oldAction: Action? = self.action
 
         for var row = 0; row < maxRows; row++ {
             for var col = 0; col < maxCols; col++ {
@@ -49,7 +50,7 @@ class Node {
                 if tile is BlankTile {
                     // Apply all given operators
                     let oldLocation = tile.location
-                    let oldAction: Action? = self.action
+                    
                     for action in problem.operators {
                         let newLocation: Location = action.apply(tile.location)
                         
@@ -67,20 +68,29 @@ class Node {
                         }
 
                         // Tile at the new Location cannot move
-                        let tileToSwapWith = parentState![newLocation.row][newLocation.col]
+                        let tileToSwapWith: Tile = parentState![newLocation.row][newLocation.col]
+
                         if tileToSwapWith.fixed || tileToSwapWith is BlankTile {
                             continue
                         }
 
                         // create new state
-                        var newState: [[Tile]] = parentState!
+                        var newState = parentState!
                         
                         // apply the current action by changing
                         // the targeted tile location in the new state
                         
 //                        visualizeBoard(parentState!)
+
+                        switch tileToSwapWith {
+                        case is BlockTile:
+                            newState[row][col] = BlockTile(location: tile.location)
+                        case is PathTile:
+                            newState[row][col] = PathTile(location: tile.location, config: (tileToSwapWith as! PathTile).config, fixed: false)
+                        default:
+                            break
+                        }
                         
-                        newState[tile.location.row][tile.location.col] = tileToSwapWith
                         newState[newLocation.row][newLocation.col] = BlankTile(location: newLocation)
                         
 //                        visualizeBoard(newState)
