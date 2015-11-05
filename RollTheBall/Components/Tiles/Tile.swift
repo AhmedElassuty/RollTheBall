@@ -84,6 +84,7 @@ class Tile {
     }
 }
 
+
 class BlankTile: Tile {
     
     init(location: Location) {
