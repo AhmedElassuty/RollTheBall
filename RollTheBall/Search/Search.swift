@@ -8,15 +8,48 @@
 
 import Foundation
 
+/*
+This file contains the implementation of
+
+- Search Method as required
+- General search algorithm:
+    - With different configurations to
+    be used with different search strategies
+    - different configurations -> to limit checking unneeded conditions
+        that are not compatable with different strategies
+- Best first search for Greedy and A* strategies
+- Blind search algorithms required
+- Informed search algorithms required
+*/
+
+// variable represents number of dequeued nodes
 var numberOfExaminedNodes: Int = 0
+
+// variable represents number of nodes chosed for expansion
 var numberOfNodesExpanded: Int = 0
+
+// keep track of the dequeued nodes references
+// used to log each node examined by any search algorithm
 var dequeuedNodes: [Node] = []
+
+// keep track of iterative deepning generated sub problems
 var iterativeDeepingSubProblems: [Problem] = []
 
+// enumeratur for different search strategies implemented
 enum Strategy: Int {
     case BF, DF, ID, GR_1, GR_2, A_Start
 }
 
+
+// main search function
+/* Inputs in order:
+- grid: 2d array of tiles
+- strategy: search strategy to be used
+- visualize: boolean value indicates whether to print the correct path
+or not (if any was discovered)
+- showStep: boolean value indicates whether to print the board
+in the console as it undergoes different states
+*/
 func search(grid: [[Tile]], strategy: Strategy, visualize: Bool, showStep: Bool = false){
     // reset variables
     numberOfExaminedNodes = 0
@@ -41,8 +74,7 @@ func search(grid: [[Tile]], strategy: Strategy, visualize: Bool, showStep: Bool 
         result = aStartSearch(problem, heuristicFunc: aStarHeuristicFunc)
     }
     
-    // return parameters
-    // backtrack correct path if any
+    // Output
     if visualize {
         if result != nil {
             print("--------------- Correct path ---------------")
@@ -67,8 +99,7 @@ func search(grid: [[Tile]], strategy: Strategy, visualize: Bool, showStep: Bool 
     if result == nil {
         print(" No Solution")
     }
-    
-    // cost
+
     print("--------------- Cost of the solution ---------------")
     print("Cost = \(numberOfExaminedNodes)")
 
@@ -76,12 +107,16 @@ func search(grid: [[Tile]], strategy: Strategy, visualize: Bool, showStep: Bool 
     print("Number of Nodes expaneded \(numberOfNodesExpanded)")
 }
 
+// visualizes the dequeued nodes by any search strategy
 func stepTrack(problem: Problem){
     for node in dequeuedNodes {
         visualizeBoard(problem.stateSpace[node.state]!)
     }
 }
 
+// recursive function visualizes the correct path
+// by back tracking the parents of the goal node
+// return by any strategy
 func correctPath(problem: Problem, node: Node?){
     if node!.parentNode == nil {
         print("Initial Grid :")
@@ -93,8 +128,20 @@ func correctPath(problem: Problem, node: Node?){
     return visualizeBoard(problem.stateSpace[node!.state]!)
 }
 
+
+
 // Search Algorithms
-// for search algorithms without heuristic function
+
+/*
+All search methods returns a goal node or nil
+node: as a goal node
+nil: if no solution found
+
+General search method compatable with search algorithms (BF, DF)
+inputs:
+    problem    : problem to be proccessed
+    enqueueFunc: function specifies the insertion policy of the main queue
+*/
 private func generalSearch(problem: Problem, enqueueFunc: [Node] -> Int) -> Node? {
     // hash the initialState
     let initialStateHashValue = hashGrid(problem.initialState)
@@ -120,15 +167,24 @@ private func generalSearch(problem: Problem, enqueueFunc: [Node] -> Int) -> Node
     return nil
 }
 
+// Breadth first search
+// defines insert last function for the newly expanded nodes
 private func breadthFirst(problem: Problem) -> Node? {
     return generalSearch(problem, enqueueFunc: enqueueLast)
 }
 
+// Depth first search
+// defines insert first function for the newly expanded nodes
 private func depthFirstSearch(problem: Problem) -> Node? {
     return generalSearch(problem, enqueueFunc: enqueueFirst)
 }
 
-// for search algorithms with limited depth
+// General search function for search algorithms with limited depth
+/*inputs:
+    problem    : problem to be proccessed
+    enqueueFunc: function specifies the insertion policy of the main queue
+    maxDepth: maximum depth of expansion
+*/
 private func generalSearch(problem: Problem, enqueueFunc: [Node] -> Int, maxDepth: Int) -> Node? {
     // hash the initialState
     let initialStateHashValue = hashGrid(problem.initialState)
@@ -155,10 +211,12 @@ private func generalSearch(problem: Problem, enqueueFunc: [Node] -> Int, maxDept
     return nil
 }
 
+// Depth limited search
 private func depthLimitedSearch(problem: Problem, depth: Int) -> Node? {
     return generalSearch(problem, enqueueFunc: enqueueFirst, maxDepth: depth)
 }
 
+// Iterative deepening search
 private func iterativeDeepening(grid: [[Tile]]) -> Node? {
     for var depth = 0; true; depth++ {
         let problem = RollTheBall(grid: grid)
@@ -169,8 +227,14 @@ private func iterativeDeepening(grid: [[Tile]]) -> Node? {
     }
 }
 
-// for search algorithms with heuristic function
-private func generalSearch(problem: Problem, evalFunc: Node -> Int, heuristicFunc: Node -> Int) -> Node? {
+// general search function for search algorithms with heuristic function
+/* inputs:
+        problem: to be processed
+        evalFunc: (pathcost + huristic value) for A* 
+            or huristic value only for greedy
+        heuristicFunc: the heuristic function to be applied to new nodes
+*/
+private func generalSearch(problem: Problem, evalFunc: Node -> Int, heuristicFunc: [[Tile]] -> Int) -> Node? {
     // hash the initialState
     let intialStateHashValue = hashGrid(problem.initialState)
     
@@ -195,11 +259,16 @@ private func generalSearch(problem: Problem, evalFunc: Node -> Int, heuristicFun
     return nil
 }
 
-private func bestFirstSearch(problem: Problem, evalFunc: Node -> Int, heuristicFunc: Node -> Int) -> Node? {
+// Best first search
+private func bestFirstSearch(problem: Problem, evalFunc: Node -> Int, heuristicFunc: [[Tile]] -> Int) -> Node? {
     return generalSearch(problem, evalFunc: evalFunc, heuristicFunc: heuristicFunc)
 }
 
-private func greedySearch(problem: Problem, heuristicFunc: (Node) -> Int) -> Node? {
+// Greedy search
+// takes the huristic function to be applied
+private func greedySearch(problem: Problem, heuristicFunc: [[Tile]] -> Int) -> Node? {
+    // function to define the attributes of a node
+    // to be evaluated on, when inserted to the main queue
     func greedyEvalFunc(node: Node) -> Int {
         return node.hValue!
     }
@@ -207,7 +276,11 @@ private func greedySearch(problem: Problem, heuristicFunc: (Node) -> Int) -> Nod
     return bestFirstSearch(problem, evalFunc: greedyEvalFunc, heuristicFunc: heuristicFunc)
 }
 
-private func aStartSearch(problem: Problem, heuristicFunc: (Node) -> Int) -> Node? {
+// A* search
+// takes the huristic function to be applied
+private func aStartSearch(problem: Problem, heuristicFunc: [[Tile]] -> Int) -> Node? {
+    // function to define the attributes of a node
+    // to be evaluated on, when inserted to the main queue
     func A_StarEvalFunc(node: Node) -> Int {
         return node.hValue! + node.pathCost!
     }
@@ -216,16 +289,16 @@ private func aStartSearch(problem: Problem, heuristicFunc: (Node) -> Int) -> Nod
 }
 
 // Heuristic Functions
-func greedyHeuristicFunc1(node: Node) -> Int {
+func greedyHeuristicFunc1(grid: [[Tile]]) -> Int {
     return 0
 }
 
-func greedyHeuristicFunc2(node: Node) -> Int {
+func greedyHeuristicFunc2(grid: [[Tile]]) -> Int {
     return 0
 }
 
-func aStarHeuristicFunc(node: Node) -> Int {
-    return greedyHeuristicFunc1(node)
+func aStarHeuristicFunc(grid: [[Tile]]) -> Int {
+    return greedyHeuristicFunc1(grid)
 }
 
 // Queue configurations
@@ -238,9 +311,10 @@ private func enqueueFirst<Node>(input: [Node]) -> Int{
 }
 
 private func enqueueInIncreasingOrder<Node>(nodes: [Node], toInsert: Node, evalFunc: Node -> Int) -> Int {
+    let evalValue = evalFunc(toInsert)
     for var i = 0; i < nodes.count; i++ {
         let node = nodes[i]
-        if evalFunc(node) > evalFunc(node) {
+        if evalFunc(node) > evalValue {
             return i
         }
     }

@@ -8,7 +8,9 @@
 
 import Foundation
 
-
+// input: 2d array of tiles
+// output: Generates a string that uniquely identifies the
+// the input grid based on the tile types and location
 func hashGrid(grid: [[Tile]]) -> String {
     var hashValue = ""
     for row in grid {
@@ -19,6 +21,8 @@ func hashGrid(grid: [[Tile]]) -> String {
     return hashValue
 }
 
+// input: Tile
+// output: unique charachter per each tile type
 func stateSpaceId(tile: Tile) -> String {
     switch(tile){
     case is GoalTile:
@@ -37,6 +41,7 @@ func stateSpaceId(tile: Tile) -> String {
     return ""
 }
 
+// Generates random 2d array of Tiles
 func genGrid() -> [[Tile]] {
     let dimensions = initDimensions()
     var grid: [[Tile]] = [[Tile]]()
@@ -105,7 +110,6 @@ func genGrid() -> [[Tile]] {
  
     
     // Create Tiles
-    
     for row in 0...dimensions.rows-1 {
         grid.append([])
         for col in 0...dimensions.cols-1 {
@@ -178,7 +182,7 @@ func visualizeBoard(grid: [[Tile]]){
     print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
 }
 
-
+// returns random dimensions (rows, cols) for the new grid
 func initDimensions() -> (rows: Int, cols: Int) {
     let r = (MIN_ROWS...MAX_ROWS).randomInt
     let c = (MIN_COLS...MAX_COLS).randomInt
@@ -187,6 +191,7 @@ func initDimensions() -> (rows: Int, cols: Int) {
     }
     return (rows: r, cols: c)
 }
+
 
 func findFreeEdge(location: Location, dimentions: (rows: Int, cols:Int)) -> Edge{
     var edges: [Edge] = [.Right, .Left, .Top, .Bottom]
