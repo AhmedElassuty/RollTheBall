@@ -41,9 +41,10 @@ func genGrid() -> [[Tile]] {
     let dimensions = initDimensions()
     var grid: [[Tile]] = [[Tile]]()
     
-    let numberOfBlockTiles:Int = Int( Float(dimensions.rows * dimensions.cols) * BLOCK_TILE_PERCENTAGE)
-    let numberOfBlankTiles:Int = Int( Float(dimensions.rows * dimensions.cols) * BLANK_TILE_PERCENTAGE)
-    let numberOfPathTiles:Int = (dimensions.rows * dimensions.cols) - 2 - numberOfBlockTiles - numberOfBlankTiles
+    let numberOfNonInitialTiles: Float = Float(dimensions.rows * dimensions.cols) - 2
+    let numberOfBlockTiles:Int = Int(numberOfNonInitialTiles * BLOCK_TILE_PERCENTAGE)
+    let numberOfBlankTiles:Int = Int(numberOfNonInitialTiles * BLANK_TILE_PERCENTAGE)
+    let numberOfPathTiles:Int  = Int(numberOfNonInitialTiles) - numberOfBlockTiles - numberOfBlankTiles
     var numberOfFixedPathTiles:Int =  Int(Float(numberOfPathTiles) * FIXED_TILE_PERCENTAGE)
     
     print("Number oF Block Tiles      = \(numberOfBlockTiles)")
@@ -56,10 +57,13 @@ func genGrid() -> [[Tile]] {
         case Blank, Path, Block, Initial, Goal
     }
     var types: [TileTypes] = [.Initial, .Goal]
-    for _ in 0...numberOfBlockTiles {
-        types.append(.Block)
+    if numberOfBlockTiles-1 > 0 {
+        for _ in 0...numberOfBlockTiles-1 {
+            types.append(.Block)
+        }
     }
-    for _ in 0...numberOfBlankTiles {
+
+    for _ in 0...numberOfBlankTiles-1 {
         types.append(.Blank)
     }
     
@@ -80,6 +84,9 @@ func genGrid() -> [[Tile]] {
         }
         pathTileTypes.append(pathTileConfigs.removeFirst())
     }
+    
+    print("Number oF Types            = \(types.count)")
+    
     
     // Shuffle Types
     for i in 0 ..< (types.count - 1) {
@@ -161,6 +168,7 @@ func visualizeBoard(grid: [[Tile]]){
         print(bottomHorizontalSpace)
         print(horizontalBorder)
     }
+    print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
 }
 
 
