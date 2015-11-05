@@ -14,20 +14,35 @@ enum Strategy: Int {
 
 func search(grid: [[Tile]], strategy: Strategy, visualize: Bool){
     let problem = RollTheBall(grid: grid)
+    let result: Node?
     switch strategy {
     case .BF:
-        breadthFirst(problem)
+        result = breadthFirst(problem)
     case .DF:
-        depthFirstSearch(problem)
+        result = depthFirstSearch(problem)
     case .ID:
-        iterativeDeepening(problem)
+        result = iterativeDeepening(problem)
     case .GR_1:
-        greedySearch(problem, heuristicFunc: greedyHeuristicFunc1)
+        result = greedySearch(problem, heuristicFunc: greedyHeuristicFunc1)
     case .GR_2:
-        greedySearch(problem, heuristicFunc: greedyHeuristicFunc2)
+        result = greedySearch(problem, heuristicFunc: greedyHeuristicFunc2)
     case .A_Start:
-        aStartSearch(problem, heuristicFunc: aStarHeuristicFunc)
+        result = aStartSearch(problem, heuristicFunc: aStarHeuristicFunc)
     }
+    
+    if result != nil {
+        getCorrectPath(problem, node: result!)
+    } else {
+        print("No Solution")
+    }
+}
+
+func getCorrectPath(problem: Problem, node: Node){
+    if node.parentNode == nil {
+        return
+    }
+    visualizeBoard(problem.stateSpace[node.state]!)
+    getCorrectPath(problem, node: node.parentNode!)
 }
 
 // Search Algorithms
@@ -43,7 +58,7 @@ private func generalSearch(problem: Problem, enqueueFunc: [Node] -> Int) -> Node
     problem.stateSpace[intialStateHashValue] = problem.initialState
 
     // create initialNode for the initialState
-    let initialNode: Node = Node(parentNode: nil, state: intialStateHashValue, depth: 0, pathCost: nil, hValue: nil, action: nil)
+    let initialNode: Node = Node(parentNode: nil, state: intialStateHashValue, depth: 0, pathCost: 0, hValue: nil, action: nil)
     
     // create processing queue
     var nodes = Queue<Node>(data: initialNode)
@@ -57,6 +72,8 @@ private func generalSearch(problem: Problem, enqueueFunc: [Node] -> Int) -> Node
         // and add the expanded nodes to the queue
         nodes.enqueue(node.expand(problem), insertionFunc: enqueueFunc)
     }
+    
+    print(problem.stateSpace.count)
 
     return nil
 }

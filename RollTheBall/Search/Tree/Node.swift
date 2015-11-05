@@ -48,24 +48,27 @@ class Node {
                 let tile = parentState![row][col]
                 if tile is BlankTile {
                     // Apply all given operators
-                    let oldAction: Action = self.action!
+                    let oldLocation = tile.location
+                    let oldAction: Action? = self.action
                     for action in problem.operators {
-                        if oldAction.location.equal(tile.location) && action.isInverseOf(oldAction.move){
+                        let newLocation: Location = action.apply(tile.location)
+                        
+                        if oldAction != nil && oldAction!.location.equal(newLocation) && action == oldAction!.move {
                             continue
                         }
 
                         // Apply the current action to
                         // the location of the current blank tile
-                        let newLocation: Location = action.apply(tile.location)
+                        
                         
                         // New location is out of board boundries
-                        if newLocation.row < 0 || newLocation.row >= maxRows || newLocation.col < 0 || newLocation.col >= maxCols {
+                        if !newLocation.withInRange(maxRows, col: maxCols) {
                             continue
                         }
 
                         // Tile at the new Location cannot move
-                        let newTile = parentState![newLocation.row][newLocation.col]
-                        if newTile.fixed || newTile is BlankTile {
+                        let tileToSwapWith = parentState![newLocation.row][newLocation.col]
+                        if tileToSwapWith.fixed || tileToSwapWith is BlankTile {
                             continue
                         }
 
@@ -73,12 +76,15 @@ class Node {
                         var newState: [[Tile]] = parentState!
                         
                         // apply the current action by changing
-                        // the targeted tiles locations in the new state
-                        let tileToSwapWith = parentState![newLocation.row][newLocation.col]
-                        newState[tile.location.row][tile.location.col] = tileToSwapWith
-                        tile.location = newLocation
-                        newState[newLocation.row][newLocation.col] = tile
+                        // the targeted tile location in the new state
                         
+//                        visualizeBoard(parentState!)
+                        
+                        newState[tile.location.row][tile.location.col] = tileToSwapWith
+                        newState[newLocation.row][newLocation.col] = BlankTile(location: newLocation)
+                        
+//                        visualizeBoard(newState)
+//                        print(self.action)
                         // hash the new state
                         let hashValue = hashGrid(newState)
                         
@@ -92,7 +98,7 @@ class Node {
                         problem.stateSpace[hashValue] = newState
 
                         // create new node
-                        let newNode = Node(parentNode: self, state: hashValue, depth: self.depth + 1, pathCost: self.pathCost! + 1, hValue: nil, action: Action(location: newLocation, move: action))
+                        let newNode = Node(parentNode: self, state: hashValue, depth: self.depth + 1, pathCost: self.pathCost! + 1, hValue: nil, action: Action(location: oldLocation, move: action.inverse()))
 
                         expandedNodes.append(newNode)
                     }
