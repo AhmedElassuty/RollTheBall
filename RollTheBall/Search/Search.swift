@@ -82,16 +82,15 @@ func stepTrack(problem: Problem){
     }
 }
 
-func correctPath(problem: Problem, node: Node){
-    if node.parentNode == nil {
+func correctPath(problem: Problem, node: Node?){
+    if node!.parentNode == nil {
         print("Initial Grid :")
-        visualizeBoard(problem.stateSpace[node.state]!)
-        return
+        return visualizeBoard(problem.stateSpace[node!.state]!)
     }
     
-    correctPath(problem, node: node.parentNode!)
-    print("Action: move node at \(node.action?.move.inverse().apply((node.action?.location)!).toString()) to \(node.action?.location.toString())")
-    visualizeBoard(problem.stateSpace[node.state]!)
+    correctPath(problem, node: node!.parentNode!)
+    print("Action: move node at \(node!.action?.move.inverse().apply((node!.action?.location)!).toString()) to \(node!.action?.location.toString())")
+    return visualizeBoard(problem.stateSpace[node!.state]!)
 }
 
 // Search Algorithms
