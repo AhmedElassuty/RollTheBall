@@ -10,8 +10,8 @@ import Foundation
 
 let MIN_ROWS = 3
 let MIN_COLS = 3
-let MAX_ROWS = 3
-let MAX_COLS = 3
+let MAX_ROWS = 5
+let MAX_COLS = 5
 
 let TILE_CONFIG: [[Edge]] = [
     [.Left, .Right],
