@@ -37,7 +37,7 @@ struct Location {
         return true
     }
     
-    func toString() -> String {
+    func toString() -> String! {
         return "(\(self.row), \(self.col))"
     }
 }

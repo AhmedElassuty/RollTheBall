@@ -92,9 +92,7 @@ class Node {
                         }
                         
                         newState[newLocation.row][newLocation.col] = BlankTile(location: newLocation)
-                        
-//                        visualizeBoard(newState)
-//                        print(self.action)
+
                         // hash the new state
                         let hashValue = hashGrid(newState)
                         
