@@ -19,6 +19,12 @@ class Problem {
     // Intializer
     init(grid: [[Tile]]){
         self.initialState = grid
+
+        // hash the initialState
+        let initialStateHashValue = hashGrid(self.initialState)
+
+        // Add it to the stateSpace
+        self.stateSpace[initialStateHashValue] = self.initialState
     }
     
     func goalState(stateHashValue: String) -> Bool {

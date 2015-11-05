@@ -11,15 +11,19 @@ import Foundation
 var numberOfExaminedNodes: Int = 0
 var numberOfNodesExpanded: Int = 0
 var dequeuedNodes: [Node] = []
+var iterativeDeepingSubProblems: [Problem] = []
 
 enum Strategy: Int {
     case BF, DF, ID, GR_1, GR_2, A_Start
 }
 
 func search(grid: [[Tile]], strategy: Strategy, visualize: Bool, showStep: Bool = false){
+    // reset variables
     numberOfExaminedNodes = 0
     numberOfNodesExpanded = 0
     dequeuedNodes = []
+    iterativeDeepingSubProblems = []
+
     let problem = RollTheBall(grid: grid)
     let result: Node?
     switch strategy {
@@ -28,7 +32,7 @@ func search(grid: [[Tile]], strategy: Strategy, visualize: Bool, showStep: Bool 
     case .DF:
         result = depthFirstSearch(problem)
     case .ID:
-        result = iterativeDeepening(problem)
+        result = iterativeDeepening(grid)
     case .GR_1:
         result = greedySearch(problem, heuristicFunc: greedyHeuristicFunc1)
     case .GR_2:
@@ -38,17 +42,26 @@ func search(grid: [[Tile]], strategy: Strategy, visualize: Bool, showStep: Bool 
     }
     
     // return parameters
-    
     // backtrack correct path if any
     if visualize {
         if result != nil {
             print("--------------- Correct path ---------------")
-            correctPath(problem, node: result!)
+            if strategy == .ID {
+                correctPath(iterativeDeepingSubProblems.last!, node: result!)
+            } else {
+                correctPath(problem, node: result!)
+            }
         }
     }
     
     if (showStep){
-        stepTrack(problem)
+        if strategy == .ID {
+            for subProblem in iterativeDeepingSubProblems {
+                stepTrack(subProblem)
+            }
+        } else {
+            stepTrack(problem)
+        }
     }
     
     if result == nil {
@@ -75,21 +88,17 @@ func correctPath(problem: Problem, node: Node){
         visualizeBoard(problem.stateSpace[node.state]!)
         return
     }
+    
     correctPath(problem, node: node.parentNode!)
     print("Action: move node at \(node.action?.move.inverse().apply((node.action?.location)!).toString()) to \(node.action?.location.toString())")
     visualizeBoard(problem.stateSpace[node.state]!)
 }
 
 // Search Algorithms
-
 // for search algorithms without heuristic function
 private func generalSearch(problem: Problem, enqueueFunc: [Node] -> Int) -> Node? {
-    let rollTheBall = problem as! RollTheBall
     // hash the initialState
-    let initialStateHashValue = hashGrid(rollTheBall.initialState)
-
-    // Add it to the stateSpace
-    rollTheBall.stateSpace[initialStateHashValue] = rollTheBall.initialState
+    let initialStateHashValue = hashGrid(problem.initialState)
 
     // create initialNode for the initialState
     let initialNode: Node = Node(parentNode: nil, state: initialStateHashValue, depth: 0, pathCost: 0, hValue: nil, action: nil)
@@ -105,11 +114,60 @@ private func generalSearch(problem: Problem, enqueueFunc: [Node] -> Int) -> Node
         }
         // expand next level of the current node
         // and add the expanded nodes to the queue
-        nodes.enqueue(node.expand(rollTheBall), insertionFunc: enqueueFunc)
+        nodes.enqueue(node.expand(problem), insertionFunc: enqueueFunc)
         numberOfNodesExpanded++
     }
 
     return nil
+}
+
+private func breadthFirst(problem: Problem) -> Node? {
+    return generalSearch(problem, enqueueFunc: enqueueLast)
+}
+
+private func depthFirstSearch(problem: Problem) -> Node? {
+    return generalSearch(problem, enqueueFunc: enqueueFirst)
+}
+
+// for search algorithms with limited depth
+private func generalSearch(problem: Problem, enqueueFunc: [Node] -> Int, maxDepth: Int) -> Node? {
+    // hash the initialState
+    let initialStateHashValue = hashGrid(problem.initialState)
+
+    // create initialNode for the initialState
+    let initialNode: Node = Node(parentNode: nil, state: initialStateHashValue, depth: 0, pathCost: 0, hValue: nil, action: nil)
+    
+    // create processing queue
+    let nodes = Queue<Node>(data: initialNode)
+    while !nodes.isEmpty {
+        let node = nodes.dequeue()
+        dequeuedNodes.append(node)
+        numberOfExaminedNodes++
+        if problem.goalState(node.state) {
+            return node
+        }
+        // expand next level of the current node
+        // and add the expanded nodes to the queue
+        if node.depth != maxDepth {
+            nodes.enqueue(node.expand(problem), insertionFunc: enqueueFunc)
+            numberOfNodesExpanded++
+        }
+    }
+    return nil
+}
+
+private func depthLimitedSearch(problem: Problem, depth: Int) -> Node? {
+    return generalSearch(problem, enqueueFunc: enqueueFirst, maxDepth: depth)
+}
+
+private func iterativeDeepening(grid: [[Tile]]) -> Node? {
+    for var depth = 0; true; depth++ {
+        let problem = RollTheBall(grid: grid)
+        iterativeDeepingSubProblems.append(problem)
+        if let result = depthLimitedSearch(problem, depth: depth){
+            return result
+        }
+    }
 }
 
 // for search algorithms with heuristic function
@@ -135,28 +193,7 @@ private func generalSearch(problem: Problem, evalFunc: Node -> Int, heuristicFun
         // and add the expanded nodes to the queue
         nodes.enqueue(node.expand(problem, heuristicFunc: heuristicFunc), insertionFunc: enqueueInIncreasingOrder, evalFunc: evalFunc)
     }
-
     return nil
-}
-
-private func breadthFirst(problem: Problem) -> Node? {
-    return generalSearch(problem, enqueueFunc: enqueueLast)
-}
-
-private func depthFirstSearch(problem: Problem) -> Node? {
-    return generalSearch(problem, enqueueFunc: enqueueFirst)
-}
-
-private func depthLimitedSearch(problem: Problem, depth: Int) -> Node? {
-    return generalSearch(problem, enqueueFunc: enqueueFirst)
-}
-
-private func iterativeDeepening(problem: Problem) -> Node? {
-    for var depth = 0; true; depth++ {
-        if let result = depthLimitedSearch(problem, depth: depth){
-            return result
-        }
-    }
 }
 
 private func bestFirstSearch(problem: Problem, evalFunc: Node -> Int, heuristicFunc: Node -> Int) -> Node? {
