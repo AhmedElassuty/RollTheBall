@@ -81,6 +81,7 @@ func search(grid: [[Tile]], strategy: Strategy, visualize: Bool, showStep: Bool 
             if strategy == .ID {
                 correctPath(iterativeDeepingSubProblems.last!, node: result!)
             } else {
+                print(result?.hValue)
                 correctPath(problem, node: result!)
             }
         }
@@ -242,19 +243,22 @@ private func generalSearch(problem: Problem, evalFunc: Node -> Int, heuristicFun
     problem.stateSpace[intialStateHashValue] = problem.initialState
     
     // create initialNode for the initialState
-    let initialNode: Node = Node(parentNode: nil, state: intialStateHashValue, depth: 0, pathCost: nil, hValue: nil, action: nil)
+    let initialNode: Node = Node(parentNode: nil, state: intialStateHashValue, depth: 0, pathCost: 0, hValue: nil, action: nil)
     
     // create processing queue
     var nodes = Queue<Node>(data: initialNode)
     
     while !nodes.isEmpty {
         let node = nodes.dequeue()
+        dequeuedNodes.append(node)
+        numberOfExaminedNodes++
         if problem.goalState(node.state) {
             return node
         }
         // expand next level of the current node
         // and add the expanded nodes to the queue
         nodes.enqueue(node.expand(problem, heuristicFunc: heuristicFunc), insertionFunc: enqueueInIncreasingOrder, evalFunc: evalFunc)
+        numberOfNodesExpanded++
     }
     return nil
 }
@@ -291,9 +295,13 @@ private func aStartSearch(problem: Problem, heuristicFunc: [[Tile]] -> Int) -> N
 // Heuristic Functions
 func greedyHeuristicFunc1(grid: [[Tile]]) -> Int {
     let pathsWalked =  movedPathLocations(grid)
-    let previousTile: Tile? = pathsWalked.count > 1 ? grid[pathsWalked[1].row][pathsWalked[1].col] : nil
-    let targetLocaion = nextLocation(grid[pathsWalked[0].row][pathsWalked[0].col], previousTile: previousTile, boardLimits: Location(row: grid.count, col: grid[0].count))
-    return pathToGoal(grid, targetLocation: targetLocaion, pathLocations: pathsWalked)
+    let targetEdge = pathsWalked.1
+    var targetLocation: Location? = pathsWalked.0.last!.translate(targetEdge.translationFactor())
+    if !targetLocation!.withInRange(grid.count, col: grid.first!.count){
+        targetLocation = nil
+    }
+    let value : Int =  pathToGoal(grid, targetLocation: targetLocation, pathLocations: pathsWalked.0)
+    return value
 }
 
 func greedyHeuristicFunc2(grid: [[Tile]]) -> Int {
@@ -329,7 +337,7 @@ private func enqueueInIncreasingOrder<Node>(nodes: [Node], toInsert: Node, evalF
 func pathToGoal(grid: [[Tile]], targetLocation: Location?, pathLocations: [Location]) -> Int{
 
     if targetLocation == nil {
-        return grid.count * grid[0].count
+        return (grid.count * grid.first!.count)
     }
     
     let currentTile = grid[targetLocation!.row][targetLocation!.col]
@@ -337,110 +345,223 @@ func pathToGoal(grid: [[Tile]], targetLocation: Location?, pathLocations: [Locat
         return 0
     }
     
-    
-//    let previousTile: Tile? = pathLocations.count > 1 ?  grid[pathLocations[1].row][pathLocations[1].col] : nil
-//    let goalTile = grid.flatten().filter {$0 is GoalTile }.first
-    
     var newPathLocations = pathLocations
     newPathLocations.append(targetLocation!)
 
     var costsToGoal: [Int] = []
     
-    let topLocation: Location? = (targetLocation!.row - 1) >= 0 && !pathLocations.contains {$0.row == targetLocation!.row - 1 && $0.col == targetLocation!.col } ? Location(row: targetLocation!.row - 1, col: targetLocation!.col) : nil
-    let bottomLocation: Location? = (targetLocation!.row + 1) < grid.count && !pathLocations.contains {$0.row == targetLocation!.row + 1 && $0.col == targetLocation!.col } ? Location(row: targetLocation!.row + 1, col: targetLocation!.col) : nil
-    let leftLocation: Location? = (targetLocation!.col - 1) >= 0 && !pathLocations.contains {$0.row == targetLocation!.col - 1 && $0.row == targetLocation!.row } ? Location(row: targetLocation!.row, col: targetLocation!.col-1) : nil
-    let rightLocation: Location? = (targetLocation!.col + 1) < grid[0].count && !pathLocations.contains {$0.row == targetLocation!.col + 1 && $0.row == targetLocation!.row } ? Location(row: targetLocation!.row, col: targetLocation!.col+1) : nil
-    
+    let topLocation    : Location = Location(row: targetLocation!.row - 1, col: targetLocation!.col)
+    let bottomLocation : Location = Location(row: targetLocation!.row + 1, col: targetLocation!.col)
+    let leftLocation   : Location = Location(row: targetLocation!.row, col: targetLocation!.col-1)
+    let rightLocation  : Location = Location(row: targetLocation!.row, col: targetLocation!.col+1)
     
     for loc in [topLocation,bottomLocation, leftLocation, rightLocation ] {
-        costsToGoal.append(pathToGoal(grid, targetLocation: loc, pathLocations: newPathLocations))
-    }
-    
-    var leastCost = costsToGoal.first ?? grid.count * grid[0].count
-    
-    for cost in costsToGoal {
-        if cost < leastCost {
-            leastCost = cost
+        if loc.withInRange(grid.count, col: grid.first!.count) {
+            if !(newPathLocations.contains{$0.col == loc.col && $0.row == loc.row }){
+                 costsToGoal.append(pathToGoal(grid, targetLocation: loc, pathLocations: newPathLocations))
+            }
         }
+        
     }
-    return leastCost
     
+    let leastCost = costsToGoal.minElement() ??  50 //(grid.count * grid.first!.count)
+    return leastCost + 1
 }
 
-func movedPathLocations(grid: [[Tile]]) -> [Location] {
-    let dimensions = Location(row: grid.count, col: grid[0].count)
-    let initialTile = grid.flatten().filter {$0 is InitialTile }.first
-    var locations: [Location]! = [initialTile!.location]
+func movedPathLocations(grid: [[Tile]]) -> ([Location], Edge) {
+    let initialTile: InitialTile = (grid.flatten().filter { $0 is InitialTile}.first)! as! InitialTile
+    let compatableEdge: Edge = initialTile.exitEdge.compatableEdge()
+    let nextLocation = initialTile.location.translate(initialTile.exitEdge.translationFactor())
+    var locations: [Location] = [initialTile.location]
+    var lastExitEdge : Edge! = initialTile.exitEdge
     
-    while let location = nextLocation(grid[locations.first!.row][locations.first!.col], previousTile: (locations.count > 1 ? grid[locations[1].row][locations[1].col] : nil), boardLimits: dimensions ) {
-        let newLocationTile = grid[location.row][location.col]
-
-        if compatibleEdges(grid[locations.first!.row][locations.first!.col], targetTile: newLocationTile).compatible {
-            locations.append(location)
-        }else{
-            break
-        }
-    }
-    return locations
-}
-
-func nextLocation(tile: Tile, previousTile: Tile?, boardLimits: Location) -> Location?{
-    var exitEdge:Edge!
-    switch tile {
-    case is PathTile:
-        for currentEdge in (tile as! PathTile).config {
-            for previousEdge in ((previousTile as? PathTile)?.config ?? [(previousTile as! InitialTile).exitEdge] )! {
-                if !previousEdge.isCompatableWith(currentEdge){
-                    exitEdge = currentEdge
+    func recursiveGoalTest(targetLocation: Location, targetEdge: Edge) {
+        if targetLocation.withInRange(grid.count, col: grid.first!.count) {
+            let nextTile = grid[targetLocation.row][targetLocation.col]
+            
+            if nextTile is PathTile {
+                let pathTile = (nextTile as! PathTile)
+                if pathTile.config.contains(targetEdge){
+                    let exitEdge = pathTile.config.filter { $0 != targetEdge }.first
+                    let location = pathTile.location.translate(exitEdge!.translationFactor())
+                    locations.append(targetLocation)
+                    lastExitEdge = exitEdge
+                    return recursiveGoalTest(location, targetEdge: (exitEdge?.compatableEdge())!)
                 }
+                // not compatable path tile
+                return
+            }
+            
+            if nextTile is GoalTile && (nextTile as! GoalTile).enterEdge == targetEdge {
+                return
             }
         }
-    case is InitialTile:
-        exitEdge = (tile as! InitialTile).exitEdge
-        break
-    default:
-        return Location(row: -1, col: -1)
+        
+        // any other tile
+        // or out of board bounds
+        return
     }
-    return tile.getLocationForEdge(boardLimits, exitEdge: exitEdge)
+    recursiveGoalTest(nextLocation, targetEdge: compatableEdge)
+    
+    return (locations, lastExitEdge)
 }
 
-func compatibleEdges(previousTile: Tile, targetTile: Tile) -> (previousExit: Edge?, targetEnterEdge: Edge?, compatible: Bool){
-    var exitEdge : Edge?
-    var enterEdge: Edge?
-    var areCompatible: Bool = false
-    var previousTileConfig = [Edge]()
-    var targetTileConfig = [Edge]()
 
-    switch previousTile {
-    case is InitialTile:
-        previousTileConfig.append((previousTile as! InitialTile).exitEdge)
-    case is PathTile:
-        previousTileConfig.appendContentsOf((previousTile as! PathTile).config)
-    default:
-        break
-    }
-    
-    switch targetTile {
-    case is GoalTile:
-       targetTileConfig.append((targetTile as! GoalTile).enterEdge)
-    case is PathTile:
-        targetTileConfig.appendContentsOf((targetTile as! PathTile).config)
-    default:
-        break
-    }
-    
-    for previousEdge in previousTileConfig {
-        for targetEdge in targetTileConfig {
-            if previousEdge.isCompatableWith(targetEdge) {
-                exitEdge      = previousEdge
-                enterEdge     = targetEdge
-                areCompatible = true
-            }
-        }
-    }
-    exitEdge  = exitEdge  ?? previousTileConfig.first
-    enterEdge = enterEdge ?? targetTileConfig.first
-    
-    return (previousExit: exitEdge, targetEnterEdge: enterEdge, compatible: areCompatible)
-    
-}
+//func movedPathLocations(grid: [[Tile]]) -> [Location] {
+//    let dimensions = Location(row: grid.count, col: grid.first!.count)
+//    let initialTile = grid.flatten().filter {$0 is InitialTile }.first
+//    var locations: [Location]! = [initialTile!.location]
+//    var location : Location?
+//    
+//    while(true) {
+//        location = nextLocation(grid[locations.first!.row][locations.first!.col], previousTile: (locations.count > 1 ? grid[locations[1].row][locations[1].col] : nil), boardLimits: dimensions )
+//        
+//        if location == nil  {
+//            break
+//        }
+//        
+//        if (locations.contains {$0.row == location?.row && $0.col == location?.col}) {
+//            break
+//        }
+//        
+//        let newLocationTile = grid[location!.row][location!.col]
+//        if compatibleEdges(grid[locations.first!.row][locations.first!.col], targetTile: newLocationTile) {
+//            locations.insert(location!, atIndex: 0)
+//        }else{
+//            break
+//        }
+//    }
+//    return locations
+//}
+
+//func nextLocation(tile: Tile, previousTile: Tile?, boardLimits: Location) -> Location?{
+//
+//    
+//    var exitEdge:Edge?
+//    switch tile {
+//    case is PathTile:
+//        let pTile = tile as! PathTile
+//        let con = (previousTile as? PathTile)?.config ?? [(previousTile as! InitialTile).exitEdge]
+//        if tile.location.row > previousTile!.location.row { // Tile Under Previous
+//            if (pTile.config.contains {$0 == .Top}){
+//                exitEdge = returnOtherEdge(con, edge: .Top )
+//            }
+//        }
+//        if tile.location.row < previousTile!.location.row { // Tile Above Previous
+//            if (pTile.config.contains {$0 == .Bottom}){
+//                exitEdge = returnOtherEdge(con, edge: .Bottom )
+//            }
+//        }
+//        if tile.location.col > previousTile!.location.col { // Tile On The Right Previous
+//            if (pTile.config.contains {$0 == .Left}){
+//                exitEdge = returnOtherEdge(con, edge: .Left )
+//            }
+//        }
+//        if tile.location.col < previousTile!.location.col { // Tile On The Left Previous
+//            if (pTile.config.contains {$0 == .Right}){
+//                exitEdge = returnOtherEdge(con, edge: .Right )
+//            }
+//        }
+//        
+//    case is InitialTile:
+//        exitEdge = (tile as! InitialTile).exitEdge
+//    default:
+//        return nil
+//    }
+//    if exitEdge != nil {
+//        return tile.getLocationForEdge(boardLimits, exitEdge: exitEdge!)
+//    }
+//    return nil
+//}
+//
+//func compatibleEdges(previousTile: Tile?, targetTile: Tile) -> Bool{
+//    
+//    var targetTileExitEdge: Edge!
+////    var previousTileExitEdge: Edge!
+//    var targetTileEnterEdge: Edge!
+////    var previousTileEnterEdge: Edge!
+//    var con : [Edge]! = [Edge]()
+//    
+//    switch previousTile {
+//    case is PathTile:
+//        con.appendContentsOf((previousTile as! PathTile).config)
+//    case is InitialTile:
+//        con.append((previousTile as! InitialTile).exitEdge)
+//    default:
+//        break
+//    }
+//
+//    
+//    switch targetTile {
+//    case is GoalTile:
+//        let gTile = targetTile as! GoalTile
+//        if targetTile.location.row > previousTile!.location.row { // Tile Under Previous
+//            if (gTile.enterEdge == .Top){
+//                targetTileEnterEdge = .Top
+//                return true
+//            }
+//        }
+//        if targetTile.location.row < previousTile!.location.row { // Tile Above Previous
+//            if (gTile.enterEdge == .Bottom){
+//                targetTileEnterEdge = .Bottom
+//                return true
+//            }
+//        }
+//        if targetTile.location.col > previousTile!.location.col { // Tile On The Right Previous
+//            if (gTile.enterEdge == .Left){
+//                targetTileEnterEdge = .Left
+//                return true
+//            }
+//        }
+//        if targetTile.location.col < previousTile!.location.col { //  Tile On The Left Previous
+//            if (gTile.enterEdge == .Right){
+//                targetTileEnterEdge = .Right
+//                return true
+//            }
+//        }
+//        
+//    case is PathTile:
+//        let pTile = targetTile as! PathTile
+//        if targetTile.location.row > previousTile!.location.row { // Tile Under Previous
+//            if (pTile.config.contains {$0 == .Top}){
+//                targetTileEnterEdge = .Top
+//                targetTileExitEdge  = returnOtherEdge(con, edge: .Top )
+//                return true
+//            }
+//        }
+//        if targetTile.location.row < previousTile!.location.row { // Tile Above Previous
+//            if (pTile.config.contains {$0 == .Bottom}){
+//                targetTileEnterEdge = .Bottom
+//                targetTileExitEdge = returnOtherEdge(con, edge: .Bottom )
+//                return true
+//            }
+//        }
+//        if targetTile.location.col > previousTile!.location.col { // Tile On The Right Previous
+//            if (pTile.config.contains {$0 == .Left}){
+//                targetTileEnterEdge = .Left
+//                targetTileExitEdge = returnOtherEdge(con, edge: .Left )
+//                return true
+//            }
+//        }
+//        if targetTile.location.col < previousTile!.location.col { // Tile On The Left Previous
+//            if (pTile.config.contains {$0 == .Right}){
+//                targetTileEnterEdge = .Right
+//                targetTileExitEdge = returnOtherEdge(con, edge: .Right )
+//                return true
+//            }
+//        }
+//    default:
+//        return false
+//    }
+//    
+//    return false
+//}
+//
+//func returnOtherEdge(config: [Edge], edge: Edge) -> Edge? {
+//    let edges = config.filter {!$0.isCompatableWith(edge)}
+//    if edges.count > 1 || edges.count == 0 {
+//        return nil
+//    }else {
+//        return edges.first!
+//    }
+//}
