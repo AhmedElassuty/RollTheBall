@@ -176,9 +176,7 @@ class Node {
                         
                         // apply the current action by changing
                         // the targeted tile location in the new state
-                        
-                        //                        visualizeBoard(parentState!)
-                        
+
                         switch tileToSwapWith {
                         case is BlockTile:
                             newState[row][col] = BlockTile(location: tile.location)
