@@ -9,7 +9,7 @@
 import Foundation
 
 let grid: [[Tile]] = genGrid()
-//search(grid, strategy: Strategy.BF, visualize: true)
+search(grid, strategy: Strategy.BF, visualize: false)
 //search(grid, strategy: Strategy.DF, visualize: true)
 //search(grid, strategy: Strategy.ID, visualize: true)
 search(grid, strategy: Strategy.GR_1, visualize: false)

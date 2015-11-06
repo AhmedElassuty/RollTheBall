@@ -251,8 +251,6 @@ private func generalSearch(problem: Problem, evalFunc: Node -> Int, heuristicFun
     
     while !nodes.isEmpty {
         let node = nodes.dequeue()
-        print("dequeue")
-        print(node.hValue)
         dequeuedNodes.append(node)
         numberOfExaminedNodes++
         if problem.goalState(node.state) {
@@ -294,15 +292,11 @@ private func aStartSearch(problem: Problem, heuristicFunc: [[Tile]] -> Int) -> N
 func greedyHeuristicFunc1(grid: [[Tile]]) -> Int {
     let pathsWalked =  movedPathLocations(grid)
     let targetEdge = pathsWalked.1
-    var targetLocation: Location? = pathsWalked.0.last!.translate(targetEdge.translationFactor())
+    var targetLocation: Location? = pathsWalked.0.first!.translate(targetEdge.translationFactor())
     if !targetLocation!.withInRange(grid.count, col: grid.first!.count){
         targetLocation = nil
     }
     let value : Int =  pathToGoal(grid, targetLocation: targetLocation, pathLocations: pathsWalked.0)
-    print("=============")
-    visualizeBoard(grid)
-    print(value)
-    print("=============")
     return value
 }
 
@@ -336,7 +330,7 @@ private func enqueueInIncreasingOrder<Node>(nodes: [Node], toInsert: Node, evalF
 
 // heuristic Function 1 helpers
 func pathToGoal(grid: [[Tile]], targetLocation: Location?, pathLocations: [Location]) -> Int{
-
+    
     if targetLocation == nil {
         return (grid.count * grid.first!.count)
     }
@@ -344,10 +338,11 @@ func pathToGoal(grid: [[Tile]], targetLocation: Location?, pathLocations: [Locat
     let currentTile = grid[targetLocation!.row][targetLocation!.col]
     if currentTile is GoalTile {
         let goalEnterLocation = currentTile.getLocationForEdge(Location(row: grid.count, col:  grid.first!.count), exitEdge: (currentTile as! GoalTile).enterEdge)
-        
+
         if pathLocations.first?.row == goalEnterLocation?.row && pathLocations.first?.col == goalEnterLocation?.col {
             return 0
         }
+
         return 6
     }
     
@@ -369,7 +364,6 @@ func pathToGoal(grid: [[Tile]], targetLocation: Location?, pathLocations: [Locat
         }
         
     }
-    
     let leastCost = costsToGoal.minElement() ??  50 //(grid.count * grid.first!.count)
     return leastCost + 1
 }
@@ -390,7 +384,7 @@ func movedPathLocations(grid: [[Tile]]) -> ([Location], Edge) {
                 if pathTile.config.contains(targetEdge){
                     let exitEdge = pathTile.config.filter { $0 != targetEdge }.first
                     let location = pathTile.location.translate(exitEdge!.translationFactor())
-                    locations.append(targetLocation)
+                    locations.insert(targetLocation, atIndex: 0)
                     lastExitEdge = exitEdge
                     return recursiveGoalTest(location, targetEdge: (exitEdge?.compatableEdge())!)
                 }
