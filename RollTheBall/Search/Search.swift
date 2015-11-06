@@ -347,7 +347,7 @@ func pathToGoal(grid: [[Tile]], targetLocation: Location?, pathLocations: [Locat
         if pathLocations.first?.row == goalEnterLocation?.row && pathLocations.first?.col == goalEnterLocation?.col {
             return 0
         }
-        return 5
+        return 6
     }
     
     var newPathLocations = pathLocations
