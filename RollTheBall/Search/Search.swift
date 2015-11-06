@@ -251,6 +251,8 @@ private func generalSearch(problem: Problem, evalFunc: Node -> Int, heuristicFun
     
     while !nodes.isEmpty {
         let node = nodes.dequeue()
+        print("dequeue")
+        print(node.hValue)
         dequeuedNodes.append(node)
         numberOfExaminedNodes++
         if problem.goalState(node.state) {
@@ -264,11 +266,6 @@ private func generalSearch(problem: Problem, evalFunc: Node -> Int, heuristicFun
     return nil
 }
 
-// Best first search
-private func bestFirstSearch(problem: Problem, evalFunc: Node -> Int, heuristicFunc: [[Tile]] -> Int) -> Node? {
-    return generalSearch(problem, evalFunc: evalFunc, heuristicFunc: heuristicFunc)
-}
-
 // Greedy search
 // takes the huristic function to be applied
 private func greedySearch(problem: Problem, heuristicFunc: [[Tile]] -> Int) -> Node? {
@@ -278,7 +275,7 @@ private func greedySearch(problem: Problem, heuristicFunc: [[Tile]] -> Int) -> N
         return node.hValue!
     }
 
-    return bestFirstSearch(problem, evalFunc: greedyEvalFunc, heuristicFunc: heuristicFunc)
+    return generalSearch(problem, evalFunc: greedyEvalFunc, heuristicFunc: heuristicFunc)
 }
 
 // A* search
@@ -290,7 +287,7 @@ private func aStartSearch(problem: Problem, heuristicFunc: [[Tile]] -> Int) -> N
         return node.hValue! + node.pathCost!
     }
 
-    return bestFirstSearch(problem, evalFunc: A_StarEvalFunc, heuristicFunc: heuristicFunc)
+    return generalSearch(problem, evalFunc: A_StarEvalFunc, heuristicFunc: heuristicFunc)
 }
 
 // Heuristic Functions
@@ -302,6 +299,10 @@ func greedyHeuristicFunc1(grid: [[Tile]]) -> Int {
         targetLocation = nil
     }
     let value : Int =  pathToGoal(grid, targetLocation: targetLocation, pathLocations: pathsWalked.0)
+    print("=============")
+    visualizeBoard(grid)
+    print(value)
+    print("=============")
     return value
 }
 
@@ -333,8 +334,7 @@ private func enqueueInIncreasingOrder<Node>(nodes: [Node], toInsert: Node, evalF
     return nodes.count
 }
 
-// heuristic Function 1
-
+// heuristic Function 1 helpers
 func pathToGoal(grid: [[Tile]], targetLocation: Location?, pathLocations: [Location]) -> Int{
 
     if targetLocation == nil {
