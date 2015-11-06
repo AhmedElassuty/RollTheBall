@@ -11,8 +11,6 @@ import Foundation
 
 class PathTile: Tile {
     var config: [Edge]!
-    var start: Edge!
-    var end  : Edge!
     
     init(location: Location, config: [Edge], fixed: Bool) {
         super.init(location: location, fixed: fixed)
