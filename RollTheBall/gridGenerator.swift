@@ -21,6 +21,9 @@ func stateSpaceId(tile: Tile) -> String {
     case is BlockTile:
         return "B"
     case let tile as PathTile:
+        if tile.fixed {
+            return "F"
+        }
         return String(TILE_CONFIG.indexOf {$0 == tile.config}!)
     default:
         break
@@ -116,6 +119,48 @@ func genGrid() -> [[Tile]] {
             //grid[row-1].append()
         }
     }
+    
+    // Fix Tiles
+    for row in 0...dimensions.rows-1{
+        for col in 0...dimensions.cols-1 {
+            
+            if grid[row][col] is PathTile {
+                
+                var fixed = numberOfFixedPathTiles > 0
+                
+                if fixed {
+                    let topLocation    : Location = Location(row: row - 1, col: col)
+                    let bottomLocation : Location = Location(row: row + 1, col: col)
+                    let leftLocation   : Location = Location(row: row, col: col-1)
+                    let rightLocation  : Location = Location(row: row, col: col+1)
+                    
+                    for loc in [topLocation,bottomLocation, leftLocation, rightLocation ] {
+                        if !loc.withInRange(grid.count, col: grid.first!.count) {
+                            fixed = false
+                            break
+                        }else{
+                            let surroundingTile = grid[loc.row][loc.col]
+                            
+                            if surroundingTile is GoalTile || surroundingTile is InitialTile || ((surroundingTile is PathTile) && (surroundingTile as! PathTile).fixed){
+                                fixed = false
+                                break
+                            }
+                        }
+                    }
+                    if fixed{
+                        (grid[row][col] as! PathTile).fixed = fixed
+                        numberOfFixedPathTiles--
+                    }
+                    
+                    
+                }
+            }
+            
+        }
+    }
+    
+    
+    
     print("Grid Hash                  = \(hashGrid(grid))")
     visualizeBoard(grid)
     return grid
