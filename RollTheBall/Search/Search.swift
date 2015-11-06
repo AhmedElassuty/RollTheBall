@@ -342,11 +342,16 @@ func pathToGoal(grid: [[Tile]], targetLocation: Location?, pathLocations: [Locat
     
     let currentTile = grid[targetLocation!.row][targetLocation!.col]
     if currentTile is GoalTile {
-        return 0
+        let goalEnterLocation = currentTile.getLocationForEdge(Location(row: grid.count, col:  grid.first!.count), exitEdge: (currentTile as! GoalTile).enterEdge)
+        
+        if pathLocations.first?.row == goalEnterLocation?.row && pathLocations.first?.col == goalEnterLocation?.col {
+            return 0
+        }
+        return 5
     }
     
     var newPathLocations = pathLocations
-    newPathLocations.append(targetLocation!)
+    newPathLocations.insert(targetLocation!, atIndex:  0)
 
     var costsToGoal: [Int] = []
     
