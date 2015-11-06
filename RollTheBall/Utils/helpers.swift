@@ -118,13 +118,13 @@ func genGrid() -> [[Tile]] {
             case .Blank:
                 grid[row].append(BlankTile(location: location))
             case .Goal:
-                grid[row].append(GoalTile(location: location, edge: findFreeEdge(location, dimentions: dimensions)))
+                grid[row].append(GoalTile(location: location, edge: getValidEdge(location, dimentions: dimensions)))
             case .Block:
                 grid[row].append(BlockTile(location: location))
             case .Path:
                 grid[row].append(PathTile(location: location, config: pathTileTypes.removeFirst(), fixed: false))
             case .Initial:
-               grid[row].append(InitialTile(location: location, edge: findFreeEdge(location, dimentions: dimensions)))
+               grid[row].append(InitialTile(location: location, edge: getValidEdge(location, dimentions: dimensions)))
             }
             //grid[row-1].append()
         }
@@ -193,20 +193,27 @@ func initDimensions() -> (rows: Int, cols: Int) {
 }
 
 
-func findFreeEdge(location: Location, dimentions: (rows: Int, cols:Int)) -> Edge{
-    var edges: [Edge] = [.Right, .Left, .Top, .Bottom]
+func getValidEdge(location: Location, dimentions: (rows: Int, cols:Int)) -> Edge {
+    var validEdges: [Int: Edge] = [ Edge.Left.rawValue: .Left, Edge.Right.rawValue: .Right, Edge.Top.rawValue: .Top, Edge.Bottom.rawValue: .Bottom]
+        if location.row == (dimentions.rows - 1) {
+            validEdges.removeValueForKey(Edge.Bottom.rawValue)
+        }
     
-    if location.row+1 == dimentions.rows {
-        return .Top
+        if location.row == 0 {
+            validEdges.removeValueForKey(Edge.Top.rawValue)
+        }
+    
+        if location.col == (dimentions.cols - 1) {
+            validEdges.removeValueForKey(Edge.Right.rawValue)
+        }
+    
+        if location.col == 0 {
+            validEdges.removeValueForKey(Edge.Left.rawValue)
+        }
+
+        return Edge.random(validEdges.values.reduce([Edge](), combine: {
+            (var result: [Edge], edge: Edge) -> [Edge] in
+            result.append(edge)
+            return result
+            }))
     }
-    if location.row == 0 {
-        return .Bottom
-    }
-    if location.col == 0 {
-        return .Right
-    }
-    if location.col+1 == dimentions.cols {
-        return .Left
-    }
-    return edges[(0...3).randomInt]
-}
