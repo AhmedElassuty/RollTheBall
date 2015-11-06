@@ -80,7 +80,7 @@ func genGrid() -> [[Tile]] {
         pathTileTypes.append(pathTileConfigs.removeFirst())
     }
     
-    print("Number oF Types            = \(types.count)")
+    print("Number oF Tiles            = \(types.count)")
     
     
     // Shuffle Types
@@ -161,7 +161,7 @@ func genGrid() -> [[Tile]] {
     
     
     
-    print("Grid Hash                  = \(hashGrid(grid))")
+//    print("Grid Hash                  = \(hashGrid(grid))")
     visualizeBoard(grid)
     return grid
 }

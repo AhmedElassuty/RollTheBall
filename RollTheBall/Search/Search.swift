@@ -35,6 +35,10 @@ var dequeuedNodes: [Node] = []
 // keep track of iterative deepning generated sub problems
 var iterativeDeepingSubProblems: [Problem] = []
 
+// keeps track if we can expand more or not
+// if true iterative deepening will halt execution
+var iterativeDeepingStopFlag: Bool = false
+
 // enumeratur for different search strategies implemented
 enum Strategy: Int {
     case BF, DF, ID, GR_1, GR_2, A_Start
@@ -50,13 +54,13 @@ or not (if any was discovered)
 - showStep: boolean value indicates whether to print the board
 in the console as it undergoes different states
 */
-func search(grid: [[Tile]], strategy: Strategy, visualize: Bool, showStep: Bool = false){
-    print("Search Strategy applied      = \(strategy)")
+func search(grid: [[Tile]], strategy: Strategy, visualize: Bool, showStep: Bool = false, showGoalState: Bool = false){
     // reset variables
     numberOfExaminedNodes = 0
     numberOfNodesExpanded = 0
     dequeuedNodes = []
     iterativeDeepingSubProblems = []
+    iterativeDeepingStopFlag = false
 
     let problem = RollTheBall(grid: grid)
     let result: Node?
@@ -98,15 +102,22 @@ func search(grid: [[Tile]], strategy: Strategy, visualize: Bool, showStep: Bool 
         }
     }
     
+    
+    print("Search Strategy applied      = \(strategy)")
     if result == nil {
         print(" No Solution")
+    } else {
+        if (showGoalState){
+            print("-----------------The Solution ----------------------------")
+            visualizeBoard(problem.stateSpace[result!.state]!)
+        }
     }
-
     print("--------------- Cost of the solution ---------------")
     print("Cost = \(numberOfExaminedNodes)")
 
     print("--------------- Number of nodes chosen for expansion ---------------")
     print("Number of Nodes expaneded \(numberOfNodesExpanded)")
+    print("--------------------------------------------------------------------")
 }
 
 // visualizes the dequeued nodes by any search strategy
@@ -205,8 +216,15 @@ private func generalSearch(problem: Problem, enqueueFunc: [Node] -> Int, maxDept
         }
         // expand next level of the current node
         // and add the expanded nodes to the queue
-        if node.depth != maxDepth {
-            nodes.enqueue(node.expand(problem), insertionFunc: enqueueFunc)
+        if node.depth < maxDepth {
+            let expandedNodes: [Node] = node.expand(problem)
+            if expandedNodes.count == 0 && nodes.isEmpty {
+                // cannot expand more
+                // and the main queue is already empty
+                // stop iterative deeping search
+//                iterativeDeepingStopFlag = true
+            }
+            nodes.enqueue(expandedNodes, insertionFunc: enqueueFunc)
             numberOfNodesExpanded++
         }
     }
@@ -220,13 +238,15 @@ private func depthLimitedSearch(problem: Problem, depth: Int) -> Node? {
 
 // Iterative deepening search
 private func iterativeDeepening(grid: [[Tile]]) -> Node? {
-    for var depth = 0; true; depth++ {
+    for var depth = 0; !iterativeDeepingStopFlag; depth++ {
         let problem = RollTheBall(grid: grid)
         iterativeDeepingSubProblems.append(problem)
+        
         if let result = depthLimitedSearch(problem, depth: depth){
             return result
         }
     }
+    return nil
 }
 
 // general search function for search algorithms with heuristic function
@@ -378,7 +398,7 @@ func movedPathLocations(grid: [[Tile]]) -> ([Location], Edge) {
     func recursiveGoalTest(targetLocation: Location, targetEdge: Edge) {
         if targetLocation.withInRange(grid.count, col: grid.first!.count) {
             let nextTile = grid[targetLocation.row][targetLocation.col]
-            
+
             if nextTile is PathTile {
                 let pathTile = (nextTile as! PathTile)
                 if pathTile.config.contains(targetEdge){
@@ -388,17 +408,8 @@ func movedPathLocations(grid: [[Tile]]) -> ([Location], Edge) {
                     lastExitEdge = exitEdge
                     return recursiveGoalTest(location, targetEdge: (exitEdge?.compatableEdge())!)
                 }
-                // not compatable path tile
-                return
-            }
-            
-            if nextTile is GoalTile && (nextTile as! GoalTile).enterEdge == targetEdge {
-                return
             }
         }
-        
-        // any other tile
-        // or out of board bounds
         return
     }
     recursiveGoalTest(nextLocation, targetEdge: compatableEdge)
