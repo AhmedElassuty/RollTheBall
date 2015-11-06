@@ -52,8 +52,7 @@ class Tile {
 
 
 class BlankTile: Tile {
-    
-    init(location: Location) {
-        super.init(location: location)
-    }
+}
+
+class BlockTile: Tile {
 }

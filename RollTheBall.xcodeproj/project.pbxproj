@@ -14,7 +14,6 @@
 		01055A591BE3D3350028F446 /* constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01055A581BE3D3350028F446 /* constants.swift */; settings = {ASSET_TAGS = (); }; };
 		01055A5B1BE3E2ED0028F446 /* Edge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01055A5A1BE3E2ED0028F446 /* Edge.swift */; settings = {ASSET_TAGS = (); }; };
 		0108B7001BE1A2AC00E435B1 /* BasicTiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0108B6FC1BE1A2AC00E435B1 /* BasicTiles.swift */; settings = {ASSET_TAGS = (); }; };
-		0108B7011BE1A2AC00E435B1 /* BlockTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0108B6FD1BE1A2AC00E435B1 /* BlockTile.swift */; settings = {ASSET_TAGS = (); }; };
 		0108B7021BE1A2AC00E435B1 /* PathTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0108B6FE1BE1A2AC00E435B1 /* PathTile.swift */; settings = {ASSET_TAGS = (); }; };
 		0108B7031BE1A2AC00E435B1 /* Tile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0108B6FF1BE1A2AC00E435B1 /* Tile.swift */; settings = {ASSET_TAGS = (); }; };
 		01915A011BEA803200A186A4 /* helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01915A001BEA803200A186A4 /* helpers.swift */; settings = {ASSET_TAGS = (); }; };
@@ -45,7 +44,6 @@
 		01055A581BE3D3350028F446 /* constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = constants.swift; sourceTree = "<group>"; };
 		01055A5A1BE3E2ED0028F446 /* Edge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Edge.swift; sourceTree = "<group>"; };
 		0108B6FC1BE1A2AC00E435B1 /* BasicTiles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicTiles.swift; sourceTree = "<group>"; };
-		0108B6FD1BE1A2AC00E435B1 /* BlockTile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockTile.swift; sourceTree = "<group>"; };
 		0108B6FE1BE1A2AC00E435B1 /* PathTile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathTile.swift; sourceTree = "<group>"; };
 		0108B6FF1BE1A2AC00E435B1 /* Tile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tile.swift; sourceTree = "<group>"; };
 		01915A001BEA803200A186A4 /* helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = helpers.swift; sourceTree = "<group>"; };
@@ -102,7 +100,6 @@
 			isa = PBXGroup;
 			children = (
 				0108B6FC1BE1A2AC00E435B1 /* BasicTiles.swift */,
-				0108B6FD1BE1A2AC00E435B1 /* BlockTile.swift */,
 				0108B6FE1BE1A2AC00E435B1 /* PathTile.swift */,
 				0108B6FF1BE1A2AC00E435B1 /* Tile.swift */,
 			);
@@ -222,7 +219,6 @@
 				01F9318F1BECD35800757BA0 /* Node.swift in Sources */,
 				0108B7031BE1A2AC00E435B1 /* Tile.swift in Sources */,
 				01055A5B1BE3E2ED0028F446 /* Edge.swift in Sources */,
-				0108B7011BE1A2AC00E435B1 /* BlockTile.swift in Sources */,
 				010131311BE8E504002BC073 /* Operators.swift in Sources */,
 				01F931901BECD35800757BA0 /* Queue.swift in Sources */,
 				01055A571BE3C54B0028F446 /* extensions.swift in Sources */,
