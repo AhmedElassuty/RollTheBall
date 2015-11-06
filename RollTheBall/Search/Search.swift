@@ -222,7 +222,8 @@ private func generalSearch(problem: Problem, enqueueFunc: [Node] -> Int, maxDept
                 // cannot expand more
                 // and the main queue is already empty
                 // stop iterative deeping search
-//                iterativeDeepingStopFlag = true
+                
+                iterativeDeepingStopFlag = true
             }
             nodes.enqueue(expandedNodes, insertionFunc: enqueueFunc)
             numberOfNodesExpanded++
@@ -241,7 +242,6 @@ private func iterativeDeepening(grid: [[Tile]]) -> Node? {
     for var depth = 0; !iterativeDeepingStopFlag; depth++ {
         let problem = RollTheBall(grid: grid)
         iterativeDeepingSubProblems.append(problem)
-        
         if let result = depthLimitedSearch(problem, depth: depth){
             return result
         }
