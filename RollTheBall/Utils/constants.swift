@@ -31,7 +31,3 @@ let TILE_CONFIG: [[Edge]] = [
 let BLANK_TILE_PERCENTAGE: Float = 30/100 // 30% of Total Tiles
 let BLOCK_TILE_PERCENTAGE: Float = 10/100 // 30% of Total Tiles
 let FIXED_TILE_PERCENTAGE: Float = 10/100 // 10% of Path Tiles
-
-
-
-

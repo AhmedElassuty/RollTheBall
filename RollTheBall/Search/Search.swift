@@ -51,6 +51,7 @@ or not (if any was discovered)
 in the console as it undergoes different states
 */
 func search(grid: [[Tile]], strategy: Strategy, visualize: Bool, showStep: Bool = false){
+    print("Search Strategy applied      = \(strategy)")
     // reset variables
     numberOfExaminedNodes = 0
     numberOfNodesExpanded = 0
