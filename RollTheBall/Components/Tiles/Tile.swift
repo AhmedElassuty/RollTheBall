@@ -8,40 +8,6 @@
 
 import Foundation
 
-//typealias Location = (row: Int!, col: Int!)
-
-struct Location {
-    var row: Int!
-    var col: Int!
-    
-    init(row: Int!, col: Int!){
-        self.row = row
-        self.col = col
-    }
-    
-    func equal(location: Location) -> Bool {
-        if self.row == location.row && self.col == self.col {
-            return true
-        }
-        return false
-    }
-    
-    func translate(factor: Location) -> Location {
-        return Location(row: self.row + factor.row, col: self.col + factor.col)
-    }
-    
-    func withInRange(row: Int, col: Int) -> Bool {
-        if self.row < 0 || self.row >= row || self.col < 0 || self.col >= col {
-            return false
-        }
-        return true
-    }
-    
-    func toString() -> String! {
-        return "(\(self.row), \(self.col))"
-    }
-}
-
 class Tile {
     // Instance properties
     var location: Location!
