@@ -12,8 +12,8 @@ import Foundation
 // dimensions of the generated board
 let MIN_ROWS = 3
 let MIN_COLS = 3
-let MAX_ROWS = 3
-let MAX_COLS = 3
+let MAX_ROWS = 6
+let MAX_COLS = 6
 
 // Constant array represents the six different
 // configurations of Pathtiles
